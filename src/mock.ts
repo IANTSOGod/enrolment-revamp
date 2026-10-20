@@ -2,7 +2,7 @@ import { Clock, Landmark, RefreshCw, Settings, User } from "lucide-react"
 
 export const navItems: NavItem[] = [
   { title: "Vue d'ensemble", url: "/admin/dashboard", icon: Landmark },
-  { title: "Nouvel enrôlement", url: "/admin/enrolment", icon: User },
+  { title: "Nouvel enrôlement", url: "/admin/enrolmenthome", icon: User },
   { title: "Dossiers & historique", url: "/dossiers", icon: Clock },
   {
     title: "File de synchronisation",

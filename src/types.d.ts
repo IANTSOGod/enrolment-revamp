@@ -19,3 +19,13 @@ type AppNotification = {
   time: string
   read?: boolean
 }
+
+type MessageResponse = {
+  message: string
+  status: number
+}
+
+type LoginBase = {
+  email: string
+  mdp: string
+}
