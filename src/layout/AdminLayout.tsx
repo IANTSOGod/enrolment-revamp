@@ -1,16 +1,17 @@
 import { SidebarProvider } from "@/components/ui/sidebar"
-import { Outlet } from "react-router"
-import AdminSidebar from "./AdminSidebar"
-import AppHeader from "./AdminHeader"
 import { associateurl } from "@/lib/utils"
+import { Outlet, useLocation } from "react-router"
+import AppHeader from "./AdminHeader"
+import AdminSidebar from "./AdminSidebar"
 
 export default function AdminLayout() {
+  const location = useLocation()
   return (
     <SidebarProvider>
       <AdminSidebar />
       <div className="flex min-w-0 flex-1 flex-col">
         <AppHeader
-          title={associateurl(window.location.pathname) as string}
+          title={associateurl(location.pathname) as string}
           subtitle="Centre Antananarivo · Guichet 04"
         />
         <main className="flex-1 p-4 md:p-6">
