@@ -17,6 +17,15 @@ async function Login(data: LoginBase) {
   return result
 }
 
+async function Logout() {
+  const { error } = await authClient.signOut()
+
+  if (error) {
+    throw new Error(error.message)
+  }
+}
+
 export const AuthService = {
   login: (data: LoginBase) => Login(data),
+  logout: () => Logout(),
 }

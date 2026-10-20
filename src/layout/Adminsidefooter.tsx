@@ -11,6 +11,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { AuthService } from "@/services/auth"
 import {
   ChevronUp,
   CircleHelp,
@@ -23,11 +24,6 @@ import { useNavigate } from "react-router"
 
 export default function AdminSideFooter() {
   const navigate = useNavigate()
-
-  function handleLogout() {
-    // Remplacer par signOut() de Better Auth
-    navigate("/login")
-  }
 
   return (
     <SidebarFooter className="border-t p-3">
@@ -80,7 +76,7 @@ export default function AdminSideFooter() {
               <DropdownMenuSeparator />
 
               <DropdownMenuItem
-                onClick={handleLogout}
+                onClick={() => AuthService.logout()}
                 className="text-destructive hover:text-destructive"
               >
                 <LogOut />
