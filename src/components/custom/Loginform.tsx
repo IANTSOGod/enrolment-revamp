@@ -28,7 +28,7 @@ export default function Loginform() {
   }
 
   return (
-    <div className="mx-auto my-auto flex flex-col rounded-[6px] px-6 py-6 sm:w-105 sm:border-2 sm:bg-white">
+    <div className="mx-auto my-auto flex flex-col rounded-[6px] px-6 py-6 text-black sm:w-105 sm:border-2 sm:bg-white">
       <div className="mb-6 text-center">
         <h1 className="text-xl font-bold tracking-tight text-slate-900">
           Agent Authentication
