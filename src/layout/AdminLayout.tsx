@@ -14,7 +14,7 @@ export default function AdminLayout() {
           title={associateurl(location.pathname) as string}
           subtitle="Centre Antananarivo · Guichet 04"
         />
-        <main className="flex-1 p-4 md:p-6">
+        <main className="flex-1 bg-slate-50 p-6 md:p-8">
           <Outlet />
         </main>
       </div>
