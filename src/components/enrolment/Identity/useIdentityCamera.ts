@@ -3,22 +3,10 @@ import { useEffect, useRef, useState } from "react"
 export const IRIS_CROP_WIDTH_RATIO = 0.3
 export const IRIS_CROP_HEIGHT_RATIO = 0.2
 export const IRIS_FRAME_POINTS: readonly [number, number][] = [
-  [0, 50],
-  [7, 36],
-  [18, 23],
-  [32, 12],
-  [50, 5],
-  [68, 12],
-  [82, 23],
-  [93, 36],
-  [100, 50],
-  [93, 64],
-  [82, 77],
-  [68, 88],
-  [50, 95],
-  [32, 88],
-  [18, 77],
-  [7, 64],
+  [0, 0],
+  [100, 0],
+  [100, 100],
+  [0, 100],
 ]
 
 function getCameraErrorMessage(error: unknown): string {

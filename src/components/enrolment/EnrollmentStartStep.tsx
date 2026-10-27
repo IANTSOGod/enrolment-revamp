@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ArrowRight, CheckCircle2, FileX, Info, RefreshCw, User } from "lucide-react";
+import { Stepper } from "./EnrollmentShared";
 
 const PROCEDURES = [
   { id: "new", icon: User, title: "Nouveau dossier", desc: "Première création d'une identité numérique" },
@@ -28,6 +29,13 @@ export default function EnrollmentStartStep({ onStart }: EnrollmentStartStepProp
         <p className="mt-1 text-sm text-slate-500">
           Créez un dossier sécurisé et accompagnez le citoyen dans les étapes de vérification.
         </p>
+
+        <Stepper
+          currentPhase={1}
+          activeLabel="Informations citoyen"
+          nextLabel="Empreintes & Photo"
+          filledSegments={1}
+        />
 
         <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-5">
           <h2 className="text-sm font-semibold">Type de procédure</h2>
