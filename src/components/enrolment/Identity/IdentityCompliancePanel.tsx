@@ -1,21 +1,4 @@
-import {
-  CalendarDays,
-  MapPin,
-  UserRound,
-  UsersRound,
-  VenusAndMars,
-} from "lucide-react"
-
-const identityFields = [
-  { icon: UserRound, label: "Nom" },
-  { icon: UserRound, label: "Prénom(s)" },
-  { icon: VenusAndMars, label: "Genre" },
-  { icon: CalendarDays, label: "Date de naissance" },
-  { icon: MapPin, label: "Lieu de naissance" },
-  { icon: UserRound, label: "Nom de la mère" },
-  { icon: UserRound, label: "Nom du père" },
-  { icon: UsersRound, label: "Accompagnateur" },
-]
+import { identityFields } from "@/mock"
 
 export default function IdentityCompliancePanel() {
   return (

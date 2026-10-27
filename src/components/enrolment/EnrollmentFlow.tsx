@@ -1,9 +1,9 @@
 import { useState } from "react"
 import EnrollmentStartStep from "./EnrollmentStartStep"
-import IdentificationStep from "./IdentificationStep"
-import IrisCaptureStep, { type EyeSide } from "./IrisCaptureStep"
-import FacialProfileStep, { type ProfileSide } from "./FacialProfileStep"
 import FacialCaptureStep from "./FacialCaptureStep"
+import FacialProfileStep from "./FacialProfileStep"
+import IdentificationStep from "./IdentificationStep"
+import IrisCaptureStep from "./IrisCaptureStep"
 
 export default function EnrollmentFlow() {
   const [screen, setScreen] = useState<0 | 1 | 2 | 3 | 4>(0)
