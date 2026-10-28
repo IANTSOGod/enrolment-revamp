@@ -1,24 +1,9 @@
-import { useState } from "react"
 import { Camera, Scan } from "lucide-react"
-import { PageShell, StepFooter, Stepper } from "./EnrollmentShared"
+import { useState } from "react"
+import { StepFooter } from "../custom/StepFooter"
+import { Stepper } from "../custom/Stepper"
+import { PageShell } from "./EnrollmentShared"
 import IdentityCameraDialog from "./Identity/IdentityCameraDialog"
-
-export type EyeSide = "right" | "left"
-
-type EyePanelProps = {
-  side: EyeSide
-  image: string | null
-  onCapture?: (side: EyeSide, image: string) => void
-}
-
-type IrisCaptureStepProps = {
-  rightEye: string | null
-  leftEye: string | null
-  onCapture?: (side: EyeSide, image: string) => void
-  onBack?: () => void
-  onSave?: () => void
-  onNext?: () => void
-}
 
 function EyePanel({ side, image, onCapture }: EyePanelProps) {
   const [cameraOpen, setCameraOpen] = useState(false)

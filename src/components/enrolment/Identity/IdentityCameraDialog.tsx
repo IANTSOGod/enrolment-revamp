@@ -1,18 +1,10 @@
-import { useState } from "react"
 import { Camera, X } from "lucide-react"
+import { useState } from "react"
 import useIdentityCamera, {
   IRIS_CROP_HEIGHT_RATIO,
-  IRIS_FRAME_POINTS,
   IRIS_CROP_WIDTH_RATIO,
-} from "./useIdentityCamera"
-
-type IdentityCameraDialogProps = {
-  open: boolean
-  onClose: () => void
-  onCapture?: (image: string) => void
-  title?: string
-  cropCenter?: boolean
-}
+  IRIS_FRAME_POINTS,
+} from "../../../hooks/useIdentityCamera"
 
 export default function IdentityCameraDialog({
   open,

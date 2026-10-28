@@ -1,16 +1,9 @@
-import { useState } from "react"
 import { Camera, Check, RotateCcw } from "lucide-react"
-import { PageShell, StepFooter, Stepper } from "./EnrollmentShared"
-import useIdentityCamera from "./Identity/useIdentityCamera"
-
-type FacialCaptureStepProps = {
-  image: string | null
-  onCapture?: (image: string) => void
-  onClear?: () => void
-  onBack?: () => void
-  onSave?: () => void
-  onNext?: () => void
-}
+import { useState } from "react"
+import useIdentityCamera from "../../hooks/useIdentityCamera"
+import { StepFooter } from "../custom/StepFooter"
+import { Stepper } from "../custom/Stepper"
+import { PageShell } from "./EnrollmentShared"
 
 export default function FacialCaptureStep({
   image,
@@ -82,7 +75,7 @@ export default function FacialCaptureStep({
           <h2 className="text-lg font-semibold text-blue-950">
             Dernière capture
           </h2>
-          <div className="mt-4 flex aspect-[4/3] items-center justify-center overflow-hidden rounded border border-slate-200 bg-slate-100">
+          <div className="mt-4 flex aspect-4/3 items-center justify-center overflow-hidden rounded border border-slate-200 bg-slate-100">
             {image ? (
               <img
                 src={image}

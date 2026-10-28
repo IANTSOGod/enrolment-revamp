@@ -1,12 +1,6 @@
-import { useRef, useState, type ChangeEvent } from "react"
 import { Camera, Paperclip, Scan } from "lucide-react"
+import { useRef, useState, type ChangeEvent } from "react"
 import IdentityCameraDialog from "./IdentityCameraDialog"
-
-type IdentityImagePanelProps = {
-  image: string | null
-  onCapture?: (image: string) => void
-  onImport?: (image: string) => void
-}
 
 export default function IdentityImagePanel({
   image,

@@ -1,15 +1,8 @@
-import { PageShell, StepFooter, Stepper } from "./EnrollmentShared"
+import { StepFooter } from "../custom/StepFooter"
+import { Stepper } from "../custom/Stepper"
+import { PageShell } from "./EnrollmentShared"
 import IdentityCompliancePanel from "./Identity/IdentityCompliancePanel"
 import IdentityImagePanel from "./Identity/IdentityImagePanel"
-
-type IdentificationStepProps = {
-  onBack?: () => void
-  onNext?: () => void
-  onSave?: () => void
-  onScan?: (image: string) => void
-  onImport?: (image: string) => void
-  image: string | null
-}
 
 export default function IdentificationStep({
   onBack,
