@@ -1,7 +1,7 @@
-import { useState } from "react"
 import { ArrowLeft } from "lucide-react"
-import { PageShell} from "./EnrollmentShared"
+import { useState } from "react"
 import { Stepper } from "../custom/Stepper"
+import { PageShell } from "./EnrollmentShared"
 
 export default function ConsentStep({ onBack }: { onBack?: () => void }) {
   const [informationConfirmed, setInformationConfirmed] = useState(false)
@@ -37,23 +37,25 @@ export default function ConsentStep({ onBack }: { onBack?: () => void }) {
         filledSegments={7}
       />
 
-      <section className="mt-6 min-h-[420px] rounded-2xl border border-slate-200 bg-white p-4 md:p-8">
+      <section className="mt-6 min-h-105 rounded-2xl border border-slate-200 bg-white p-4 md:p-8">
         <div className="mx-auto max-w-5xl space-y-2">
           <article className="rounded-lg border border-slate-300 p-4">
             <h2 className="text-sm font-semibold text-slate-900">
               Systèmes nationaux d’identité - Déclaration de consentement
             </h2>
             <p className="mt-2 text-xs leading-relaxed text-slate-700">
-              Je consens à la collecte, au traitement et au stockage de mes données
-              biométriques (empreintes digitales, scans de l’iris et photographie
-              faciale) et de mes données démographiques par le Système national
-              d’identité aux fins d’établir mon identité unique.
+              Je consens à la collecte, au traitement et au stockage de mes
+              données biométriques (empreintes digitales, scans de l’iris et
+              photographie faciale) et de mes données démographiques par le
+              Système national d’identité aux fins d’établir mon identité
+              unique.
             </p>
             <p className="mt-2 text-xs leading-relaxed text-slate-700">
-              Je comprends que mes données seront stockées en toute sécurité dans
-              des bases de données gouvernementales et pourront être partagées avec
-              les organismes autorisés uniquement dans les conditions prévues par
-              la loi, à des fins d’authentification et de vérification d’identité.
+              Je comprends que mes données seront stockées en toute sécurité
+              dans des bases de données gouvernementales et pourront être
+              partagées avec les organismes autorisés uniquement dans les
+              conditions prévues par la loi, à des fins d’authentification et de
+              vérification d’identité.
             </p>
           </article>
 
@@ -62,10 +64,14 @@ export default function ConsentStep({ onBack }: { onBack?: () => void }) {
               <input
                 type="checkbox"
                 checked={informationConfirmed}
-                onChange={(event) => setInformationConfirmed(event.target.checked)}
+                onChange={(event) =>
+                  setInformationConfirmed(event.target.checked)
+                }
                 className="mt-0.5 h-4 w-4 shrink-0 accent-blue-600"
               />
-              <span>Je déclare que les informations fournies sont vraies et exactes.</span>
+              <span>
+                Je déclare que les informations fournies sont vraies et exactes.
+              </span>
             </label>
             <label className="mt-5 flex cursor-pointer items-start gap-3 text-xs font-semibold text-slate-800">
               <input
@@ -75,8 +81,8 @@ export default function ConsentStep({ onBack }: { onBack?: () => void }) {
                 className="mt-0.5 h-4 w-4 shrink-0 accent-blue-600"
               />
               <span>
-                Je consens à la collecte et au stockage de mes données biométriques
-                et démographiques.
+                Je consens à la collecte et au stockage de mes données
+                biométriques et démographiques.
                 <span className="mt-1 block font-normal text-slate-500">
                   Nécessaire pour l’établissement de l’identité.
                 </span>

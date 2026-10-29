@@ -1,20 +1,12 @@
-import { useState } from "react";
-import { ArrowRight, CheckCircle2, FileX, Info, RefreshCw, User } from "lucide-react";
-import { Stepper } from "../custom/Stepper";
+import { CHECKS, PROCEDURES } from "@/mock"
+import { ArrowRight, CheckCircle2, Info } from "lucide-react"
+import { useState } from "react"
+import { Stepper } from "../custom/Stepper"
 
-const PROCEDURES = [
-  { id: "new", icon: User, title: "Nouveau dossier", desc: "Première création d'une identité numérique" },
-  { id: "update", icon: RefreshCw, title: "Mise à jour", desc: "Modifier des informations existantes" },
-  { id: "fix", icon: FileX, title: "Correction", desc: "Corriger une donnée après contrôle" },
-] as const;
-const CHECKS = [
-  "Le citoyen est présent au guichet",
-  "Une pièce d'identité originale est disponible",
-  "Les périphériques sont connectés",
-];
-
-export default function EnrollmentStartStep({ onStart }: EnrollmentStartStepProps) {
-  const [selected, setSelected] = useState<ProcedureId>("new");
+export default function EnrollmentStartStep({
+  onStart,
+}: EnrollmentStartStepProps) {
+  const [selected, setSelected] = useState<ProcedureId>("new")
   return (
     <div className="min-h-full bg-slate-50 text-slate-900">
       <div className="w-full">

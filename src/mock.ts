@@ -80,3 +80,12 @@ export const identityFields = [
   { icon: UserRound, label: "Nom du père" },
   { icon: UsersRound, label: "Accompagnateur" },
 ]
+
+export const IMAGES = [
+  { key: "face", label: "Photo de face" },
+  { key: "left", label: "Profil gauche" },
+  { key: "right", label: "Profil droit" },
+] as const
+
+export const FINGERS = ["Pouce", "Index", "Majeur", "Annulaire", "Auriculaire"]
+

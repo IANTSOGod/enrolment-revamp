@@ -1,20 +1,7 @@
+import { IMAGES } from "@/mock"
 import { StepFooter } from "../custom/StepFooter"
 import { Stepper } from "../custom/Stepper"
 import { PageShell } from "./EnrollmentShared"
-
-type FacialImageVerificationStepProps = {
-  facialImage: string | null
-  leftProfile: string | null
-  rightProfile: string | null
-  onBack?: () => void
-  onNext?: () => void
-}
-
-const IMAGES = [
-  { key: "face", label: "Photo de face" },
-  { key: "left", label: "Profil gauche" },
-  { key: "right", label: "Profil droit" },
-] as const
 
 export default function FacialImageVerificationStep({
   facialImage,

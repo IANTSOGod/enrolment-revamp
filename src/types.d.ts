@@ -121,3 +121,17 @@ type IdentityCameraDialogProps = {
   title?: string
   cropCenter?: boolean
 }
+
+type FacialImageVerificationStepProps = {
+  facialImage: string | null
+  leftProfile: string | null
+  rightProfile: string | null
+  onBack?: () => void
+  onNext?: () => void
+}
+type ImageVerificationStepProps = {
+  rightEye: string | null
+  leftEye: string | null
+  onBack?: () => void
+  onNext?: () => void
+}
