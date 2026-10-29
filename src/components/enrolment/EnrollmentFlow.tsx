@@ -3,9 +3,12 @@ import EnrollmentStartStep from "./EnrollmentStartStep"
 import FacialCaptureStep from "./FacialCaptureStep"
 import FacialProfileStep from "./FacialProfileStep"
 import IdentificationStep from "./IdentificationStep"
-import IrisCaptureStep, { type EyeSide } from "./IrisCaptureStep"
-import FacialProfileStep, { type ProfileSide } from "./FacialProfileStep"
-import FacialCaptureStep from "./FacialCaptureStep"
+import IrisCaptureStep from "./IrisCaptureStep"
+import FingerprintCaptureStep from "./FingerprintCaptureStep"
+import PersonalInformationReviewStep from "./PersonalInformationReviewStep"
+import ImageVerificationStep from "./ImageVerificationStep"
+import FacialImageVerificationStep from "./FacialImageVerificationStep"
+import ConsentStep from "./ConsentStep"
 
 export default function EnrollmentFlow() {
   const [screen, setScreen] = useState<0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9>(0)

@@ -1,4 +1,6 @@
-import { PageShell, StepFooter, Stepper } from "./EnrollmentShared"
+import { StepFooter } from "../custom/StepFooter"
+import { Stepper } from "../custom/Stepper"
+import { PageShell } from "./EnrollmentShared"
 
 const IDENTITY_FIELDS = [
   { label: "Nom", value: "DEMOKAPAHA" },

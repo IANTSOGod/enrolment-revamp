@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ArrowRight, CheckCircle2, FileX, Info, RefreshCw, User } from "lucide-react";
+import { Stepper } from "../custom/Stepper";
 
 const PROCEDURES = [
   { id: "new", icon: User, title: "Nouveau dossier", desc: "Première création d'une identité numérique" },
@@ -11,12 +12,6 @@ const CHECKS = [
   "Une pièce d'identité originale est disponible",
   "Les périphériques sont connectés",
 ];
-
-type ProcedureId = "new" | "update" | "fix";
-
-type EnrollmentStartStepProps = {
-  onStart?: (procedure: ProcedureId) => void;
-};
 
 export default function EnrollmentStartStep({ onStart }: EnrollmentStartStepProps) {
   const [selected, setSelected] = useState<ProcedureId>("new");

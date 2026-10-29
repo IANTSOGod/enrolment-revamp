@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { ArrowLeft } from "lucide-react"
-import { PageShell, Stepper } from "./EnrollmentShared"
+import { PageShell} from "./EnrollmentShared"
+import { Stepper } from "../custom/Stepper"
 
 export default function ConsentStep({ onBack }: { onBack?: () => void }) {
   const [informationConfirmed, setInformationConfirmed] = useState(false)

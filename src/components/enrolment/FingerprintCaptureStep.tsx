@@ -1,5 +1,7 @@
 import { Check, Circle } from "lucide-react"
-import { PageShell, StepFooter, Stepper } from "./EnrollmentShared"
+import { PageShell } from "./EnrollmentShared"
+import { Stepper } from "../custom/Stepper"
+import { StepFooter } from "../custom/StepFooter"
 
 const FINGERS = ["Pouce", "Index", "Majeur", "Annulaire", "Auriculaire"]
 
