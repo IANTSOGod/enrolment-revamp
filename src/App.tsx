@@ -3,11 +3,12 @@ import Login from "./pages/Login"
 import AdminLayout from "./layout/AdminLayout"
 import EnrolmnentDashboard from "./pages/EnrolmentDashboard"
 import EnrolmentHome from "./pages/EnrolmentHome"
+import LoginEnrolment from "./pages/LoginEnrolment"
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Login></Login>}></Route>
+      <Route path="/" element={<LoginEnrolment></LoginEnrolment>}></Route>
       <Route path="/admin" element={<AdminLayout></AdminLayout>}>
         <Route
           path="/admin/dashboard"

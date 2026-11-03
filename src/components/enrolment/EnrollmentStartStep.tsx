@@ -1,7 +1,6 @@
 import { CHECKS, PROCEDURES } from "@/mock"
 import { ArrowRight, CheckCircle2, Info } from "lucide-react"
 import { useState } from "react"
-import { Stepper } from "../custom/Stepper"
 
 export default function EnrollmentStartStep({
   onStart,
@@ -20,13 +19,6 @@ export default function EnrollmentStartStep({
           Créez un dossier sécurisé et accompagnez le citoyen dans les étapes de
           vérification.
         </p>
-
-        <Stepper
-          currentPhase={1}
-          activeLabel="Informations citoyen"
-          nextLabel="Empreintes & Photo"
-          filledSegments={1}
-        />
 
         <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-5">
           <h2 className="text-sm font-semibold">Type de procédure</h2>
