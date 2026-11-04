@@ -27,7 +27,7 @@ export interface LoginEnrolmentProps {
 }
 
 export default function LoginEnrolment({
-  heroImageSrc = "/images/enrolment-hero.jpg",
+  heroImageSrc = "/assets/background_auth.jpg",
   onSubmit,
   onBiometric,
   onBadgeScan,
