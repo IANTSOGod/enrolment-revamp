@@ -89,3 +89,20 @@ export const IMAGES = [
 
 export const FINGERS = ["Pouce", "Index", "Majeur", "Annulaire", "Auriculaire"]
 
+export const IDENTITY_FIELDS = [
+  { label: "Nom", value: "DEMOKAPAHA" },
+  { label: "Prénoms", value: "EVLOKICO VLOK" },
+  { label: "Genre", value: "MASCULIN" },
+]
+
+export const BIRTH_FIELDS = [
+  { label: "Date de naissance", value: "21 / 08 / 2000" },
+  { label: "Lieu de naissance", value: "CU MAROANTSETRA" },
+  { label: "Pays de naissance", value: "Madagascar" },
+  { label: "Nationalité", value: "Malagasy" },
+]
+
+export const PARENT_FIELDS = [
+  { label: "Père", value: "DEMOKAPAHA VLOK" },
+  { label: "Mère", value: "SOA KALO" },
+]

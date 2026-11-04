@@ -45,28 +45,21 @@ export default function LoginEnrolment({
     <main className="flex min-h-screen items-center justify-center bg-[#DDE3F0] p-4 sm:p-6">
       <div className="w-full max-w-260 rounded-[32px] bg-[#F5F6FA] p-6 sm:p-12">
         <div className="grid items-stretch gap-7 lg:grid-cols-[436px_1fr]">
-          {/* ───────── Carte image (gauche) ───────── */}
           <aside className="relative hidden min-h-162 overflow-hidden rounded-[28px] bg-[#9DB7DE] lg:block">
             <h1 className="absolute inset-x-0 top-0 z-10 bg-linear-to-b from-[#C3D4E2] to-[#A9C2E3] px-6 pt-9 pb-8 text-center text-[34px] font-bold tracking-tight text-white">
               ENROLMENT APP
             </h1>
-
             <img
               src={heroImageSrc}
               alt="Agent d'enrôlement accueillant une personne devant un terminal biométrique"
               className="absolute inset-x-3.75 top-37 bottom-9.25 h-[calc(100%-185px)] w-[calc(100%-30px)] object-cover"
             />
-
-            {/* Voile bleu */}
             <div className="pointer-events-none absolute inset-0 bg-[#6F95D0]/35" />
           </aside>
-
-          {/* ───────── Carte formulaire (droite) ───────── */}
           <section className="rounded-[28px] border border-slate-100 bg-white px-8 py-10 shadow-sm sm:px-8">
             <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-blue-100 bg-blue-50 text-blue-600">
               <Landmark className="h-5 w-5" aria-hidden />
             </div>
-
             <div className="mt-24">
               <h2 className="text-[26px] leading-tight font-bold text-slate-900">
                 Bienvenue !
@@ -75,9 +68,7 @@ export default function LoginEnrolment({
                 Connecté à ton compte Agent d&apos;Enrôlement
               </p>
             </div>
-
             <form onSubmit={handleSubmit} className="mt-6" noValidate>
-              {/* Identifiant */}
               <label
                 htmlFor="identifiant"
                 className="mb-1.5 block text-xs font-semibold text-slate-800"
@@ -100,8 +91,6 @@ export default function LoginEnrolment({
                   className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 pr-4 pl-10 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
                 />
               </div>
-
-              {/* Mot de passe */}
               <label
                 htmlFor="motDePasse"
                 className="mt-4 mb-1.5 block text-xs font-semibold text-slate-800"
@@ -141,9 +130,7 @@ export default function LoginEnrolment({
                   )}
                 </button>
               </div>
-
               <hr className="mx-5 mt-8 mb-4 border-slate-200" />
-
               <button
                 type="submit"
                 disabled={isPending}
@@ -177,10 +164,7 @@ export default function LoginEnrolment({
                 onClick={onBadgeScan}
                 className="flex h-10 items-center justify-center gap-2 rounded-xl border border-slate-100 bg-slate-50 text-[13px] font-medium text-slate-800 transition-colors hover:bg-slate-100 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none"
               >
-                <IdCard
-                  className="h-4.5 w-4.5 text-blue-500"
-                  aria-hidden
-                />
+                <IdCard className="h-4.5 w-4.5 text-blue-500" aria-hidden />
                 Scanner un badge
               </button>
             </div>
