@@ -47,14 +47,14 @@ export default function LoginEnrolment({
         <div className="grid items-stretch gap-7 lg:grid-cols-[436px_1fr]">
           {/* ───────── Carte image (gauche) ───────── */}
           <aside className="relative hidden min-h-162 overflow-hidden rounded-[28px] bg-[#9DB7DE] lg:block">
-            <h1 className="absolute inset-x-0 top-0 z-10 bg-gradient-to-b from-[#C3D4E2] to-[#A9C2E3] px-6 pt-9 pb-8 text-center text-[34px] font-bold tracking-tight text-white">
+            <h1 className="absolute inset-x-0 top-0 z-10 bg-linear-to-b from-[#C3D4E2] to-[#A9C2E3] px-6 pt-9 pb-8 text-center text-[34px] font-bold tracking-tight text-white">
               ENROLMENT APP
             </h1>
 
             <img
               src={heroImageSrc}
               alt="Agent d'enrôlement accueillant une personne devant un terminal biométrique"
-              className="absolute inset-x-[15px] top-[148px] bottom-[37px] h-[calc(100%-185px)] w-[calc(100%-30px)] object-cover"
+              className="absolute inset-x-3.75 top-37 bottom-9.25 h-[calc(100%-185px)] w-[calc(100%-30px)] object-cover"
             />
 
             {/* Voile bleu */}
@@ -167,7 +167,7 @@ export default function LoginEnrolment({
                 className="flex h-10 items-center justify-center gap-2 rounded-xl border border-slate-100 bg-slate-50 text-[13px] font-medium text-slate-800 transition-colors hover:bg-slate-100 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none"
               >
                 <Fingerprint
-                  className="h-[18px] w-[18px] text-blue-500"
+                  className="h-4.5 w-4.5 text-blue-500"
                   aria-hidden
                 />
                 Biométriques
@@ -178,7 +178,7 @@ export default function LoginEnrolment({
                 className="flex h-10 items-center justify-center gap-2 rounded-xl border border-slate-100 bg-slate-50 text-[13px] font-medium text-slate-800 transition-colors hover:bg-slate-100 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none"
               >
                 <IdCard
-                  className="h-[18px] w-[18px] text-blue-500"
+                  className="h-4.5 w-4.5 text-blue-500"
                   aria-hidden
                 />
                 Scanner un badge
