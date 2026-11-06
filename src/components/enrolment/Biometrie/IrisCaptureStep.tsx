@@ -1,7 +1,7 @@
-import EyePanel from "../custom/EyePanel"
-import { StepFooter } from "../custom/StepFooter"
-import { Stepper } from "../custom/Stepper"
-import { PageShell } from "./EnrollmentShared"
+import EyePanel from "../../custom/EyePanel"
+import { StepFooter } from "../../custom/StepFooter"
+import { Stepper } from "../../custom/Stepper"
+import { PageShell } from "../EnrollmentShared"
 
 export default function IrisCaptureStep({
   rightEye,

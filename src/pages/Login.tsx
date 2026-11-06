@@ -1,4 +1,4 @@
-import Loginform from "@/components/custom/Loginform"
+import Loginform from "@/components/custom/Loginform_"
 import { Label } from "@/components/ui/label"
 import { Shield } from "lucide-react"
 

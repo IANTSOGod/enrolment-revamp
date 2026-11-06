@@ -1,6 +1,6 @@
-import { StepFooter } from "../custom/StepFooter"
-import { Stepper } from "../custom/Stepper"
-import { PageShell } from "./EnrollmentShared"
+import { StepFooter } from "../../custom/StepFooter"
+import { Stepper } from "../../custom/Stepper"
+import { PageShell } from "../EnrollmentShared"
 
 export default function ImageVerificationStep({
   rightEye,

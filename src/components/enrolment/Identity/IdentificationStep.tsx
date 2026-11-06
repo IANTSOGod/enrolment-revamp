@@ -1,8 +1,8 @@
-import { StepFooter } from "../custom/StepFooter"
-import { Stepper } from "../custom/Stepper"
-import { PageShell } from "./EnrollmentShared"
-import IdentityCompliancePanel from "./Identity/IdentityCompliancePanel"
-import IdentityImagePanel from "./Identity/IdentityImagePanel"
+import { StepFooter } from "../../custom/StepFooter"
+import { Stepper } from "../../custom/Stepper"
+import { PageShell } from "../EnrollmentShared"
+import IdentityCompliancePanel from "./IdentityCompliancePanel"
+import IdentityImagePanel from "./IdentityImagePanel"
 
 export default function IdentificationStep({
   onBack,

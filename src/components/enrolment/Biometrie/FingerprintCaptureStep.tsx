@@ -1,9 +1,9 @@
 import { FINGERS } from "@/mock"
-import FingerStatus from "../custom/FingerStatus"
-import HandIllustration from "../custom/HandIllustration"
-import { StepFooter } from "../custom/StepFooter"
-import { Stepper } from "../custom/Stepper"
-import { PageShell } from "./EnrollmentShared"
+import FingerStatus from "../../custom/FingerStatus"
+import HandIllustration from "../../custom/HandIllustration"
+import { StepFooter } from "../../custom/StepFooter"
+import { Stepper } from "../../custom/Stepper"
+import { PageShell } from "../EnrollmentShared"
 
 export default function FingerprintCaptureStep({
   onBack,

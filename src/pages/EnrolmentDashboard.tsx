@@ -11,6 +11,8 @@ import {
 } from "lucide-react"
 import { Link } from "react-router"
 import { useOnlineStatus } from "@/lib/utils"
+import Metric from "@/components/dash/Metric"
+import TableRecent from "@/components/dash/TableRecent"
 
 const recentEnrolments = [
   {
@@ -97,17 +99,6 @@ const operationalServices = [
   },
 ] as const
 
-function statusStyle(status: (typeof recentEnrolments)[number]["status"]) {
-  switch (status) {
-    case "Validé":
-      return "border-emerald-200 bg-emerald-50 text-emerald-700"
-    case "En attente":
-      return "border-slate-200 bg-slate-100 text-slate-600"
-    case "En cours":
-      return "border-blue-200 bg-blue-50 text-blue-700"
-  }
-}
-
 export default function EnrolmentDashboard() {
   const online = useOnlineStatus()
 
@@ -139,29 +130,7 @@ export default function EnrolmentDashboard() {
         className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"
       >
         {metrics.map((metric) => (
-          <article
-            key={metric.label}
-            className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
-          >
-            <div className="flex items-center justify-between gap-3">
-              <h3 className="text-sm font-medium text-slate-600">
-                {metric.label}
-              </h3>
-              <span
-                className={`flex size-8 shrink-0 items-center justify-center rounded-xl ${metric.iconClass}`}
-              >
-                <metric.icon className="size-4" />
-              </span>
-            </div>
-            <p className="mt-2 text-2xl font-bold tracking-tight text-slate-900">
-              {metric.value}
-            </p>
-            <p className={`mt-0.5 text-xs font-medium ${metric.detailClass}`}>
-              {metric.label === "En attente de sync" && !online
-                ? "Hors connexion"
-                : metric.detail}
-            </p>
-          </article>
+          <Metric key={metric.label} metric={metric}></Metric>
         ))}
       </section>
 
@@ -183,48 +152,7 @@ export default function EnrolmentDashboard() {
           </Link>
         </div>
 
-        <div className="mt-3 overflow-x-auto">
-          <table className="w-full min-w-[640px] border-collapse text-left text-xs">
-            <thead>
-              <tr className="bg-slate-50 text-[11px] font-medium tracking-wide text-slate-500 uppercase">
-                <th scope="col" className="px-3 py-2">
-                  Référence
-                </th>
-                <th scope="col" className="px-3 py-2">
-                  Demandeur
-                </th>
-                <th scope="col" className="px-3 py-2">
-                  Étape
-                </th>
-                <th scope="col" className="px-3 py-2 text-right">
-                  Statut
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {recentEnrolments.map((enrolment) => (
-                <tr key={enrolment.reference}>
-                  <td className="whitespace-nowrap px-3 py-3.5 font-medium text-blue-700">
-                    {enrolment.reference}
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3.5 font-medium text-slate-800">
-                    {enrolment.applicant}
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3.5 text-slate-600">
-                    {enrolment.step}
-                  </td>
-                  <td className="px-3 py-3 text-right">
-                    <span
-                      className={`inline-flex min-w-22 items-center justify-center rounded-full border px-3 py-1.5 text-xs font-medium ${statusStyle(enrolment.status)}`}
-                    >
-                      {enrolment.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <TableRecent recentEnrolments={recentEnrolments}></TableRecent>
       </section>
 
       <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">

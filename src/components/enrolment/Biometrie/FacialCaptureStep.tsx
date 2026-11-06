@@ -1,9 +1,9 @@
 import { Camera, Check, RotateCcw } from "lucide-react"
 import { useState } from "react"
-import useIdentityCamera from "../../hooks/useIdentityCamera"
-import { StepFooter } from "../custom/StepFooter"
-import { Stepper } from "../custom/Stepper"
-import { PageShell } from "./EnrollmentShared"
+import useIdentityCamera from "../../../hooks/useIdentityCamera"
+import { StepFooter } from "../../custom/StepFooter"
+import { Stepper } from "../../custom/Stepper"
+import { PageShell } from "../EnrollmentShared"
 
 export default function FacialCaptureStep({
   image,

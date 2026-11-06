@@ -1,6 +1,6 @@
-import { StepFooter } from "../custom/StepFooter"
-import { Stepper } from "../custom/Stepper"
-import { PageShell } from "./EnrollmentShared"
+import { StepFooter } from "../../custom/StepFooter"
+import { Stepper } from "../../custom/Stepper"
+import { PageShell } from "../EnrollmentShared"
 
 const IDENTITY_FIELDS = [
   { label: "Nom", value: "DEMOKAPAHA" },
@@ -59,7 +59,9 @@ export default function PersonalInformationReviewStep({
         <div className="grid gap-6 rounded-lg border border-slate-300 p-4 md:grid-cols-[1.7fr_1fr] md:p-5">
           <div className="space-y-3">
             <section>
-              <h2 className="text-xs font-semibold uppercase text-slate-900">Identité & nom</h2>
+              <h2 className="text-xs font-semibold text-slate-900 uppercase">
+                Identité & nom
+              </h2>
               <div className="mt-4 grid gap-x-5 gap-y-2 sm:grid-cols-2">
                 {IDENTITY_FIELDS.map((field) => (
                   <ReadOnlyField key={field.label} {...field} />
@@ -68,7 +70,7 @@ export default function PersonalInformationReviewStep({
             </section>
 
             <section className="border-t border-slate-200 pt-3">
-              <h2 className="text-xs font-semibold uppercase text-slate-900">
+              <h2 className="text-xs font-semibold text-slate-900 uppercase">
                 Naissance & nationalité
               </h2>
               <div className="mt-4 grid gap-x-5 gap-y-2 sm:grid-cols-2">
@@ -80,7 +82,9 @@ export default function PersonalInformationReviewStep({
           </div>
 
           <section>
-            <h2 className="text-xs font-semibold uppercase text-slate-900">Parents</h2>
+            <h2 className="text-xs font-semibold text-slate-900 uppercase">
+              Parents
+            </h2>
             <div className="mt-4 space-y-3">
               {PARENT_FIELDS.map((field) => (
                 <ReadOnlyField key={field.label} {...field} />
