@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEnrollmentStore } from "@/stores/enrollment-store"
 import EnrollmentStartStep from "./EnrollmentStartStep"
 import FacialCaptureStep from "./Biometrie/FacialCaptureStep"
 import FacialProfileStep from "./Biometrie/FacialProfileStep"
@@ -11,109 +11,90 @@ import FacialImageVerificationStep from "./Revue/FacialImageVerificationStep"
 import ConsentStep from "./ConsentStep"
 
 export default function EnrollmentFlow() {
-  const [screen, setScreen] = useState<0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9>(0)
-  const [idImage, setIdImage] = useState<string | null>(null)
-  const [eyes, setEyes] = useState<Record<EyeSide, string | null>>({
-    right: null,
-    left: null,
-  })
-  const [profiles, setProfiles] = useState<Record<ProfileSide, string | null>>({
-    left: null,
-    right: null,
-  })
-  const [facialImage, setFacialImage] = useState<string | null>(null)
+  const enrollmentStore = useEnrollmentStore()
 
-  if (screen === 0) return <EnrollmentStartStep onStart={() => setScreen(1)} />
+  if (enrollmentStore.step === 0)
+    return <EnrollmentStartStep onStart={enrollmentStore.startEnrollment} />
 
-  if (screen === 1)
+  if (enrollmentStore.step === 1)
     return (
       <IdentificationStep
-        image={idImage}
-        onScan={setIdImage}
-        onImport={setIdImage}
-        onBack={() => setScreen(0)}
-        onNext={() => setScreen(2)}
+        image={enrollmentStore.idImage}
+        onScan={enrollmentStore.setIdImage}
+        onImport={enrollmentStore.setIdImage}
+        onBack={() => enrollmentStore.setStep(0)}
+        onNext={() => enrollmentStore.setStep(2)}
       />
     )
 
-  if (screen === 2)
+  if (enrollmentStore.step === 2)
     return (
       <IrisCaptureStep
-        rightEye={eyes.right}
-        leftEye={eyes.left}
-        onCapture={(side: EyeSide, image: string) =>
-          setEyes((currentEyes) => ({
-            ...currentEyes,
-            [side]: image,
-          }))
-        }
-        onBack={() => setScreen(1)}
-        onNext={() => setScreen(3)}
+        rightEye={enrollmentStore.eyes.right}
+        leftEye={enrollmentStore.eyes.left}
+        onCapture={enrollmentStore.setEyeImage}
+        onBack={() => enrollmentStore.setStep(1)}
+        onNext={() => enrollmentStore.setStep(3)}
       />
     )
 
-  if (screen === 3)
+  if (enrollmentStore.step === 3)
     return (
       <FacialProfileStep
-        leftProfile={profiles.left}
-        rightProfile={profiles.right}
-        onCapture={(side: ProfileSide, image: string) =>
-          setProfiles((currentProfiles) => ({
-            ...currentProfiles,
-            [side]: image,
-          }))
-        }
-        onBack={() => setScreen(2)}
-        onNext={() => setScreen(4)}
+        leftProfile={enrollmentStore.profiles.left}
+        rightProfile={enrollmentStore.profiles.right}
+        onCapture={enrollmentStore.setProfileImage}
+        onBack={() => enrollmentStore.setStep(2)}
+        onNext={() => enrollmentStore.setStep(4)}
       />
     )
 
-  if (screen === 4)
+  if (enrollmentStore.step === 4)
     return (
       <FacialCaptureStep
-        image={facialImage}
-        onCapture={setFacialImage}
-        onClear={() => setFacialImage(null)}
-        onBack={() => setScreen(3)}
-        onNext={() => setScreen(5)}
+        image={enrollmentStore.facialImage}
+        onCapture={enrollmentStore.setFacialImage}
+        onClear={() => enrollmentStore.setFacialImage(null)}
+        onBack={() => enrollmentStore.setStep(3)}
+        onNext={() => enrollmentStore.setStep(5)}
       />
     )
 
-  if (screen === 5)
+  if (enrollmentStore.step === 5)
     return (
       <FingerprintCaptureStep
-        onBack={() => setScreen(4)}
-        onNext={() => setScreen(6)}
+        onBack={() => enrollmentStore.setStep(4)}
+        onNext={() => enrollmentStore.setStep(6)}
       />
     )
 
-  if (screen === 6)
+  if (enrollmentStore.step === 6)
     return (
       <PersonalInformationReviewStep
-        onBack={() => setScreen(5)}
-        onNext={() => setScreen(7)}
+        onBack={() => enrollmentStore.setStep(5)}
+        onNext={() => enrollmentStore.setStep(7)}
       />
     )
-  if (screen === 7)
+  if (enrollmentStore.step === 7)
     return (
       <ImageVerificationStep
-        rightEye={eyes.right}
-        leftEye={eyes.left}
-        onBack={() => setScreen(6)}
-        onNext={() => setScreen(8)}
+        rightEye={enrollmentStore.eyes.right}
+        leftEye={enrollmentStore.eyes.left}
+        onBack={() => enrollmentStore.setStep(6)}
+        onNext={() => enrollmentStore.setStep(8)}
       />
     )
 
-  if (screen === 8)
+  if (enrollmentStore.step === 8)
     return (
       <FacialImageVerificationStep
-        facialImage={facialImage}
-        leftProfile={profiles.left}
-        rightProfile={profiles.right}
-        onBack={() => setScreen(7)}
-        onNext={() => setScreen(9)}
+        facialImage={enrollmentStore.facialImage}
+        leftProfile={enrollmentStore.profiles.left}
+        rightProfile={enrollmentStore.profiles.right}
+        onBack={() => enrollmentStore.setStep(7)}
+        onNext={() => enrollmentStore.setStep(9)}
       />
     )
 
-  return <ConsentStep onBack={() => setScreen(8)} />
+  return <ConsentStep onBack={() => enrollmentStore.setStep(8)} />
 }

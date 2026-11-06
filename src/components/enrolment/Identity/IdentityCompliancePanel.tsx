@@ -1,6 +1,9 @@
 import { identityFields } from "@/mock"
+import { useEnrollmentStore } from "@/stores/enrollment-store"
 
 export default function IdentityCompliancePanel() {
+  const identify = useEnrollmentStore((state) => state.identify)
+
   return (
     <section
       aria-labelledby="identity-checks-title"
@@ -13,7 +16,7 @@ export default function IdentityCompliancePanel() {
         Contrôles de conformité
       </h2>
       <div className="space-y-2">
-        {identityFields.map(({ icon: Icon, label }) => (
+        {identityFields.map(({ icon: Icon, label, field }) => (
           <div
             key={label}
             className="flex min-h-10 items-center gap-3 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5"
@@ -24,7 +27,9 @@ export default function IdentityCompliancePanel() {
             <span className="w-28 shrink-0 text-xs font-medium text-slate-700">
               {label} :
             </span>
-            <span className="text-xs text-slate-500">À analyser</span>
+            <span className="text-xs text-slate-500">
+              {identify[field as keyof typeof identify] || "À analyser"}
+            </span>
           </div>
         ))}
       </div>

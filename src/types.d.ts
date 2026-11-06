@@ -157,5 +157,44 @@ type Buser = {
 }
 
 type LoginResult = {
-  user: Buser,
+  user: Buser
+}
+
+type Identify = {
+  nom: string
+  prenom: string
+  dateNaissance: string
+  lieuNaissance: string
+  nomMere: string
+  nomPere: string
+}
+
+type EnrollmentStep = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+type EnrollmentData = {
+  step: EnrollmentStep
+  procedure: ProcedureId | null
+  identify: Identify
+  idImage: string | null
+  eyes: Record<EyeSide, string | null>
+  profiles: Record<ProfileSide, string | null>
+  facialImage: string | null
+  facialImageValidated: boolean
+  informationConfirmed: boolean
+  biometricConsent: boolean
+}
+
+type EnrollmentStore = EnrollmentData & {
+  setStep: (step: EnrollmentStep) => void
+  setProcedure: (procedure: ProcedureId) => void
+  setIdentify: (identify: Identify) => void
+  setIdImage: (image: string | null) => void
+  setEyeImage: (side: EyeSide, image: string | null) => void
+  setProfileImage: (side: ProfileSide, image: string | null) => void
+  setFacialImage: (image: string | null) => void
+  setFacialImageValidated: (validated: boolean) => void
+  setInformationConfirmed: (confirmed: boolean) => void
+  setBiometricConsent: (consented: boolean) => void
+  startEnrollment: (procedure: ProcedureId) => void
+  resetEnrollment: () => void
 }

@@ -1,5 +1,5 @@
 import { Camera, Check, RotateCcw } from "lucide-react"
-import { useState } from "react"
+import { useEnrollmentStore } from "@/stores/enrollment-store"
 import useIdentityCamera from "../../../hooks/useIdentityCamera"
 import { StepFooter } from "../../custom/StepFooter"
 import { Stepper } from "../../custom/Stepper"
@@ -13,7 +13,12 @@ export default function FacialCaptureStep({
   onSave,
   onNext,
 }: FacialCaptureStepProps) {
-  const [validated, setValidated] = useState(false)
+  const validated = useEnrollmentStore(
+    (state) => state.facialImageValidated,
+  )
+  const setValidated = useEnrollmentStore(
+    (state) => state.setFacialImageValidated,
+  )
   const { videoRef, starting, stream, errorMessage, captureImage } =
     useIdentityCamera(true, () => {}, onCapture, false, false)
 
@@ -24,7 +29,6 @@ export default function FacialCaptureStep({
 
   function retake() {
     onClear?.()
-    setValidated(false)
   }
 
   return (

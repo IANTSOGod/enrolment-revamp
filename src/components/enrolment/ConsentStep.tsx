@@ -1,11 +1,66 @@
 import { ArrowLeft } from "lucide-react"
 import { useState } from "react"
+import { EnrollmentService } from "@/services/enrollment"
+import { useEnrollmentStore } from "@/stores/enrollment-store"
 import { Stepper } from "../custom/Stepper"
 import { PageShell } from "./EnrollmentShared"
 
 export default function ConsentStep({ onBack }: { onBack?: () => void }) {
-  const [informationConfirmed, setInformationConfirmed] = useState(false)
-  const [biometricConsent, setBiometricConsent] = useState(false)
+  const informationConfirmed = useEnrollmentStore(
+    (state) => state.informationConfirmed,
+  )
+  const biometricConsent = useEnrollmentStore((state) => state.biometricConsent)
+  const setInformationConfirmed = useEnrollmentStore(
+    (state) => state.setInformationConfirmed,
+  )
+  const setBiometricConsent = useEnrollmentStore(
+    (state) => state.setBiometricConsent,
+  )
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
+  const [isSubmitted, setIsSubmitted] = useState(false)
+
+  async function handleSubmit() {
+    setIsSubmitting(true)
+    setSubmitError(null)
+
+    const {
+      step,
+      procedure,
+      identify,
+      idImage,
+      eyes,
+      profiles,
+      facialImage,
+      facialImageValidated,
+      informationConfirmed,
+      biometricConsent,
+    } = useEnrollmentStore.getState()
+
+    try {
+      await EnrollmentService({
+        step,
+        procedure,
+        identify,
+        idImage,
+        eyes,
+        profiles,
+        facialImage,
+        facialImageValidated,
+        informationConfirmed,
+        biometricConsent,
+      })
+      setIsSubmitted(true)
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "L'enregistrement du dossier a échoué.",
+      )
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <PageShell
@@ -23,9 +78,15 @@ export default function ConsentStep({ onBack }: { onBack?: () => void }) {
           </button>
           <button
             type="button"
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            onClick={handleSubmit}
+            disabled={isSubmitting || isSubmitted}
+            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Enregistrer
+            {isSubmitting
+              ? "Enregistrement…"
+              : isSubmitted
+                ? "Enregistré"
+                : "Enregistrer"}
           </button>
         </div>
       }
@@ -91,6 +152,16 @@ export default function ConsentStep({ onBack }: { onBack?: () => void }) {
           </div>
         </div>
       </section>
+      {submitError && (
+        <p role="alert" className="mt-3 text-sm text-red-600">
+          {submitError}
+        </p>
+      )}
+      {isSubmitted && (
+        <p role="status" className="mt-3 text-sm text-emerald-700">
+          Le dossier a été enregistré avec succès.
+        </p>
+      )}
     </PageShell>
   )
 }

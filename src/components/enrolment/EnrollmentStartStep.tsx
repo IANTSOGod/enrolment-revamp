@@ -1,11 +1,13 @@
 import { CHECKS, PROCEDURES } from "@/mock"
+import { useEnrollmentStore } from "@/stores/enrollment-store"
 import { ArrowRight, CheckCircle2, Info } from "lucide-react"
-import { useState } from "react"
 
 export default function EnrollmentStartStep({
   onStart,
 }: EnrollmentStartStepProps) {
-  const [selected, setSelected] = useState<ProcedureId>("new")
+  const selected = useEnrollmentStore((state) => state.procedure) ?? "new"
+  const setProcedure = useEnrollmentStore((state) => state.setProcedure)
+
   return (
     <div className="min-h-full bg-slate-50 text-slate-900">
       <div className="w-full">
@@ -31,7 +33,7 @@ export default function EnrollmentStartStep({
               return (
                 <button
                   key={id}
-                  onClick={() => setSelected(id)}
+                  onClick={() => setProcedure(id)}
                   className={`flex h-36 flex-col rounded-xl border p-4 text-left transition ${
                     isSelected
                       ? "border-2 border-blue-600 bg-white"

@@ -8,8 +8,12 @@ import {
   Settings,
   User,
   UserRound,
-  UsersRound,
-  VenusAndMars,
+  CloudUpload,
+  FileText,
+  Monitor,
+  ScanLine,
+  Wifi,
+  Zap,
 } from "lucide-react"
 
 export const navItems: NavItem[] = [
@@ -71,14 +75,12 @@ export const CHECKS = [
   "Les périphériques sont connectés",
 ]
 export const identityFields = [
-  { icon: UserRound, label: "Nom" },
-  { icon: UserRound, label: "Prénom(s)" },
-  { icon: VenusAndMars, label: "Genre" },
-  { icon: CalendarDays, label: "Date de naissance" },
-  { icon: MapPin, label: "Lieu de naissance" },
-  { icon: UserRound, label: "Nom de la mère" },
-  { icon: UserRound, label: "Nom du père" },
-  { icon: UsersRound, label: "Accompagnateur" },
+  { icon: UserRound, label: "Nom", field: "nom" },
+  { icon: UserRound, label: "Prénom(s)", field: "prenom" },
+  { icon: CalendarDays, label: "Date de naissance", field: "dateNaissance" },
+  { icon: MapPin, label: "Lieu de naissance", field: "lieuNaissance" },
+  { icon: UserRound, label: "Nom de la mère", field: "nomMere" },
+  { icon: UserRound, label: "Nom du père", field: "nomPere" },
 ]
 
 export const IMAGES = [
@@ -106,3 +108,88 @@ export const PARENT_FIELDS = [
   { label: "Père", value: "DEMOKAPAHA VLOK" },
   { label: "Mère", value: "SOA KALO" },
 ]
+
+export const recentEnrolments = [
+  {
+    reference: "ENR-2026-00428",
+    applicant: "Rakoto Jean",
+    step: "Vérification documentaire",
+    status: "En cours",
+  },
+  {
+    reference: "ENR-2026-00427",
+    applicant: "Rasoanaivo Mialy",
+    step: "Soumis au registre",
+    status: "Validé",
+  },
+  {
+    reference: "ENR-2026-00426",
+    applicant: "Andriamihaja Tojo",
+    step: "Capture biométrique",
+    status: "En cours",
+  },
+  {
+    reference: "ENR-2026-00425",
+    applicant: "Raharison Fara",
+    step: "Synchronisation",
+    status: "En attente",
+  },
+] as const
+
+export const metrics = [
+  {
+    label: "Dossiers aujourd'hui",
+    value: "28",
+    detail: "+12 % vs. hier",
+    detailClass: "text-emerald-600",
+    icon: FileText,
+    iconClass: "bg-blue-50 text-blue-600",
+  },
+  {
+    label: "En cours",
+    value: "7",
+    detail: "3 nécessitent votre action",
+    detailClass: "text-slate-500",
+    icon: Zap,
+    iconClass: "bg-blue-50 text-blue-600",
+  },
+  {
+    label: "Soumis au registre",
+    value: "19",
+    detail: "Taux de réussite 96 %",
+    detailClass: "text-emerald-600",
+    icon: CloudUpload,
+    iconClass: "bg-blue-50 text-blue-600",
+  },
+  {
+    label: "En attente de sync",
+    value: "3",
+    detail: "Connexion instable",
+    detailClass: "text-orange-700",
+    icon: Wifi,
+    iconClass: "bg-amber-50 text-amber-600",
+  },
+] as const
+
+export const operationalServices = [
+  {
+    name: "Connexion réseau",
+    detail: "Stable · 42 Mbps",
+    icon: Wifi,
+  },
+  {
+    name: "Identity Registry",
+    detail: "Opérationnel",
+    icon: Monitor,
+  },
+  {
+    name: "Service documentaire",
+    detail: "Opérationnel",
+    icon: ScanLine,
+  },
+  {
+    name: "Périphériques",
+    detail: "3 sur 3 connectés",
+    icon: Monitor,
+  },
+] as const
