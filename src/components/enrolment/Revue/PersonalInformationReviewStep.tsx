@@ -1,24 +1,7 @@
-import { StepFooter } from "../../custom/StepFooter"
-import { Stepper } from "../../custom/Stepper"
-import { PageShell } from "../EnrollmentShared"
-
-const IDENTITY_FIELDS = [
-  { label: "Nom", value: "DEMOKAPAHA" },
-  { label: "Prénoms", value: "EVLOKICO VLOK" },
-  { label: "Genre", value: "MASCULIN" },
-]
-
-const BIRTH_FIELDS = [
-  { label: "Date de naissance", value: "21 / 08 / 2000" },
-  { label: "Lieu de naissance", value: "CU MAROANTSETRA" },
-  { label: "Pays de naissance", value: "Madagascar" },
-  { label: "Nationalité", value: "Malagasy" },
-]
-
-const PARENT_FIELDS = [
-  { label: "Père", value: "DEMOKAPAHA VLOK" },
-  { label: "Mère", value: "SOA KALO" },
-]
+import { BIRTH_FIELDS, IDENTITY_FIELDS, PARENT_FIELDS } from "@/mock"
+import { StepFooter } from "../custom/StepFooter"
+import { Stepper } from "../custom/Stepper"
+import { PageShell } from "./EnrollmentShared"
 
 function ReadOnlyField({ label, value }: { label: string; value: string }) {
   return (

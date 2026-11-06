@@ -135,3 +135,27 @@ type ImageVerificationStepProps = {
   onBack?: () => void
   onNext?: () => void
 }
+
+type LoginEnrolmentProps = {
+  heroImageSrc?: string
+  onSubmit?: (credentials: {
+    identifiant: string
+    motDePasse: string
+  }) => void | Promise<void>
+  onBiometric?: () => void
+  onBadgeScan?: () => void
+}
+
+type Buser = {
+  id: string
+  createdAt: Date
+  updatedAt: Date
+  email: string
+  emailVerified: boolean
+  name: string
+  image?: string | null | undefined | undefined
+}
+
+type LoginResult = {
+  user: Buser,
+}

@@ -14,7 +14,7 @@ async function Login(data: LoginBase) {
     throw new Error(error.message)
   }
 
-  return result
+  return result satisfies LoginResult
 }
 
 async function Logout() {

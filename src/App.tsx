@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router"
-import Login from "./pages/Login"
 import AdminLayout from "./layout/AdminLayout"
 import EnrolmnentDashboard from "./pages/EnrolmentDashboard"
 import EnrolmentHome from "./pages/EnrolmentHome"

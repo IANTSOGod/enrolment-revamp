@@ -11,24 +11,19 @@ export default function LoginEnrolment() {
             <h1 className="absolute inset-x-0 top-0 z-10 bg-gradient-to-b from-[#C3D4E2] to-[#A9C2E3] px-6 pt-9 pb-8 text-center text-[34px] font-bold tracking-tight text-white">
               ENROLMENT APP
             </h1>
-
             <img
               src={"/assets/background_auth.jpg"}
               alt="Agent d'enrôlement accueillant une personne devant un terminal biométrique"
               className="absolute inset-x-[15px] top-[148px] bottom-[37px] h-[calc(100%-185px)] w-[calc(100%-30px)] object-cover"
             />
-
-            {/* Voile bleu */}
             <div className="pointer-events-none absolute inset-0 bg-[#6F95D0]/35" />
           </aside>
-
-          {/* ───────── Carte formulaire (droite) ───────── */}
           <section className="rounded-[28px] border border-slate-100 bg-white px-8 py-10 shadow-sm sm:px-8">
             <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-blue-100 bg-blue-50 text-blue-600">
               <Landmark className="h-5 w-5" aria-hidden />
             </div>
-
             <div className="mt-24">
+              <h2 className="text-[26px] leading-tight font-bold text-slate-900">
               <h2 className="text-[26px] leading-tight font-bold text-slate-900">
                 Bienvenue !
               </h2>
@@ -71,5 +66,6 @@ export default function LoginEnrolment() {
         </div>
       </div>
     </main>
+  )
   )
 }
