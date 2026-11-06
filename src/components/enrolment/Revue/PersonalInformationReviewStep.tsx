@@ -1,7 +1,7 @@
 import { BIRTH_FIELDS, IDENTITY_FIELDS, PARENT_FIELDS } from "@/mock"
-import { StepFooter } from "../custom/StepFooter"
-import { Stepper } from "../custom/Stepper"
-import { PageShell } from "./EnrollmentShared"
+import { StepFooter } from "../../custom/StepFooter"
+import { Stepper } from "../../custom/Stepper"
+import { PageShell } from "../EnrollmentShared"
 
 function ReadOnlyField({ label, value }: { label: string; value: string }) {
   return (

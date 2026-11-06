@@ -24,11 +24,10 @@ export default function LoginEnrolment() {
             </div>
             <div className="mt-24">
               <h2 className="text-[26px] leading-tight font-bold text-slate-900">
-              <h2 className="text-[26px] leading-tight font-bold text-slate-900">
                 Bienvenue !
               </h2>
               <p className="mt-0.5 text-[13px] text-slate-500">
-                Connecté à ton compte Agent d&apos;Enrôlement
+                Connecté à ton compte Agent d'Enrôlement
               </p>
             </div>
 
@@ -66,6 +65,5 @@ export default function LoginEnrolment() {
         </div>
       </div>
     </main>
-  )
   )
 }
