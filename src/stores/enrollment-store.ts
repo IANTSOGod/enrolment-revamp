@@ -5,11 +5,11 @@ const initialData: EnrollmentData = {
   procedure: null,
   identify: {
     nom: "",
-    prenom: "",
-    dateNaissance: "",
-    lieuNaissance: "",
-    nomMere: "",
-    nomPere: "",
+    prenoms: "",
+    date_naissance: "",
+    lieu_naissance: "",
+    nom_mere: "",
+    nom_pere: "",
   },
   location: {
     country: null,

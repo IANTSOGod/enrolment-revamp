@@ -14,7 +14,7 @@ async function Login(data: LoginBase) {
     throw new Error(error.message)
   }
   localStorage.setItem("token", result.token)
-
+  localStorage.setItem("agentId", result.user.id)
   return result satisfies LoginResult
 }
 
@@ -24,6 +24,9 @@ async function Logout() {
   if (error) {
     throw new Error(error.message)
   }
+  localStorage.removeItem("token")
+  localStorage.removeItem("agentId")
+  localStorage.removeItem("id")
 }
 
 export const AuthService = {

@@ -2,13 +2,15 @@ export default function TableRecent({
   recentEnrolments,
 }: {
   recentEnrolments: readonly {
+    id: string
     reference: string
     applicant: string
     step: string
     status: string
+    createdAt: string
   }[]
 }) {
-  function statusStyle(status: (typeof recentEnrolments)[number]["status"]) {
+  function statusStyle(status: string) {
     switch (status) {
       case "Validé":
         return "border-emerald-200 bg-emerald-50 text-emerald-700"
@@ -16,6 +18,8 @@ export default function TableRecent({
         return "border-slate-200 bg-slate-100 text-slate-600"
       case "En cours":
         return "border-blue-200 bg-blue-50 text-blue-700"
+      default:
+        return "border-slate-200 bg-slate-100 text-slate-600"
     }
   }
   return (
@@ -39,7 +43,7 @@ export default function TableRecent({
         </thead>
         <tbody className="divide-y divide-slate-100">
           {recentEnrolments.map((enrolment) => (
-            <tr key={enrolment.reference}>
+            <tr key={enrolment.id}>
               <td className="px-3 py-3.5 font-medium whitespace-nowrap text-blue-700">
                 {enrolment.reference}
               </td>
