@@ -14,7 +14,7 @@ async function Login(data: LoginBase) {
     throw new Error(error.message)
   }
   localStorage.setItem("token", result.token)
-  localStorage.setItem("agentId", result.user.id)
+  localStorage.setItem("agentId", "56c84d6f-9cb5-464c-834d-b07a5b9541ca")
   return result satisfies LoginResult
 }
 
