@@ -35,7 +35,7 @@ export default function PersonalInformationReviewStep({
         currentPhase={3}
         activeLabel="Données & Validation"
         nextLabel="Consentement & Récépissé"
-        filledSegments={5}
+        filledSegments={7}
       />
 
       <section className="mt-6 rounded-xl border border-slate-200 bg-white p-2">

@@ -11,9 +11,19 @@ const initialData: EnrollmentData = {
     nomMere: "",
     nomPere: "",
   },
+  location: {
+    country: null,
+    region: null,
+    district: null,
+    commune: null,
+    fokontany: null,
+    address: "",
+    contact: "",
+  },
   idImage: null,
   eyes: { right: null, left: null },
   profiles: { left: null, right: null },
+  uploadedImages: {},
   facialImage: null,
   facialImageValidated: false,
   informationConfirmed: false,
@@ -24,13 +34,36 @@ export const useEnrollmentStore = create<EnrollmentStore>((set) => ({
   setStep: (step) => set({ step }),
   setProcedure: (procedure) => set({ procedure }),
   setIdentify: (identify) => set({ identify }),
+  setLocation: (location) => set({ location }),
   setIdImage: (idImage) => set({ idImage }),
   setEyeImage: (side, image) =>
-    set((state) => ({ eyes: { ...state.eyes, [side]: image } })),
+    set((state) => {
+      const uploadedImages = { ...state.uploadedImages }
+      delete uploadedImages[`iris-${side}`]
+      return {
+        eyes: { ...state.eyes, [side]: image },
+        uploadedImages,
+      }
+    }),
   setProfileImage: (side, image) =>
-    set((state) => ({ profiles: { ...state.profiles, [side]: image } })),
+    set((state) => {
+      const uploadedImages = { ...state.uploadedImages }
+      delete uploadedImages[`profile-${side}`]
+      return {
+        profiles: { ...state.profiles, [side]: image },
+        uploadedImages,
+      }
+    }),
+  setUploadedImage: (key, metadata) =>
+    set((state) => ({
+      uploadedImages: { ...state.uploadedImages, [key]: metadata },
+    })),
   setFacialImage: (facialImage) =>
-    set({ facialImage, facialImageValidated: false }),
+    set((state) => {
+      const uploadedImages = { ...state.uploadedImages }
+      delete uploadedImages.face
+      return { facialImage, facialImageValidated: false, uploadedImages }
+    }),
   setFacialImageValidated: (facialImageValidated) =>
     set({ facialImageValidated }),
   setInformationConfirmed: (informationConfirmed) =>

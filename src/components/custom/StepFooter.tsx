@@ -5,6 +5,7 @@ export function StepFooter({
   onSave,
   onNext,
   nextDisabled,
+  nextLabel = "Continuer",
 }: StepFooterProps) {
   return (
     <div className="mt-8 flex items-center justify-between border-t border-slate-100 pt-5">
@@ -26,7 +27,7 @@ export function StepFooter({
           disabled={nextDisabled}
           className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400"
         >
-          Continuer <ArrowRight size={14} />
+          {nextLabel} <ArrowRight size={14} />
         </button>
       </div>
     </div>

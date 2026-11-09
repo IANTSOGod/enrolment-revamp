@@ -13,6 +13,7 @@ async function Login(data: LoginBase) {
   if (error) {
     throw new Error(error.message)
   }
+  localStorage.setItem("token", result.token)
 
   return result satisfies LoginResult
 }

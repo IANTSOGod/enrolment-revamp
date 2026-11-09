@@ -23,7 +23,7 @@ export default function FingerprintCaptureStep({
         currentPhase={2}
         activeLabel="Empreintes & Photo"
         nextLabel="Données & Validation"
-        filledSegments={4}
+        filledSegments={6}
       />
 
       <div className="mt-6 grid gap-4 rounded-2xl border border-slate-200 p-4 md:grid-cols-[1.7fr_1fr] md:p-6">

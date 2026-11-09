@@ -46,7 +46,7 @@ export const PHASES = [
   },
 ]
 
-export const TOTAL_SEGMENTS = 9
+export const TOTAL_SEGMENTS = 11
 
 export const PROCEDURES = [
   {
@@ -76,11 +76,12 @@ export const CHECKS = [
 ]
 export const identityFields = [
   { icon: UserRound, label: "Nom", field: "nom" },
-  { icon: UserRound, label: "Prénom(s)", field: "prenom" },
-  { icon: CalendarDays, label: "Date de naissance", field: "dateNaissance" },
-  { icon: MapPin, label: "Lieu de naissance", field: "lieuNaissance" },
-  { icon: UserRound, label: "Nom de la mère", field: "nomMere" },
-  { icon: UserRound, label: "Nom du père", field: "nomPere" },
+  { icon: UserRound, label: "Prénom(s)", field: "prenoms" },
+  { icon: CalendarDays, label: "Date de naissance", field: "date_naissance" },
+  { icon: MapPin, label: "Lieu de naissance", field: "lieu_naissance" },
+  { icon: UserRound, label: "Nom de la mère", field: "nom_mere" },
+  { icon: UserRound, label: "Nom du père", field: "nom_pere" },
+  { icon: UserRound, label: "Genre", field: "genre" },
 ]
 
 export const IMAGES = [

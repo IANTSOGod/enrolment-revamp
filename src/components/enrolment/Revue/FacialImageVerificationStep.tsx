@@ -1,4 +1,7 @@
+import { useRef, useState } from "react"
 import { IMAGES } from "@/mock"
+import { uploadReviewedImage } from "@/services/document-upload"
+import { useEnrollmentStore } from "@/stores/enrollment-store"
 import { StepFooter } from "../../custom/StepFooter"
 import { Stepper } from "../../custom/Stepper"
 import { PageShell } from "../EnrollmentShared"
@@ -10,10 +13,51 @@ export default function FacialImageVerificationStep({
   onBack,
   onNext,
 }: FacialImageVerificationStepProps) {
+  const setUploadedImage = useEnrollmentStore((state) => state.setUploadedImage)
+  const isUploadingRef = useRef(false)
+  const [isUploading, setIsUploading] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
   const images = {
     face: facialImage,
     left: leftProfile,
     right: rightProfile,
+  }
+  const ready = Boolean(facialImage && leftProfile && rightProfile)
+
+  async function handleNext() {
+    if (isUploadingRef.current || !facialImage || !leftProfile || !rightProfile)
+      return
+
+    isUploadingRef.current = true
+    setIsUploading(true)
+    setUploadError(null)
+    const reviewedImages = [
+      { key: "face", image: facialImage, filename: "face" },
+      { key: "profile-left", image: leftProfile, filename: "profile-left" },
+      {
+        key: "profile-right",
+        image: rightProfile,
+        filename: "profile-right",
+      },
+    ] as const
+
+    try {
+      for (const { key, image, filename } of reviewedImages) {
+        if (useEnrollmentStore.getState().uploadedImages[key]) continue
+        const metadata = await uploadReviewedImage(image, filename)
+        setUploadedImage(key, metadata)
+      }
+      onNext?.()
+    } catch (error) {
+      setUploadError(
+        error instanceof Error
+          ? error.message
+          : "L'envoi des images faciales a échoué."
+      )
+    } finally {
+      isUploadingRef.current = false
+      setIsUploading(false)
+    }
   }
 
   return (
@@ -21,13 +65,20 @@ export default function FacialImageVerificationStep({
       title="Vérification des images"
       subtitle="Veuillez vérifier les images capturées."
       caseId="ENR-2026-00429"
-      footer={<StepFooter onBack={onBack} onNext={onNext} />}
+      footer={
+        <StepFooter
+          onBack={onBack}
+          onNext={handleNext}
+          nextDisabled={!ready || isUploading}
+          nextLabel={isUploading ? "Envoi en cours…" : "Continuer"}
+        />
+      }
     >
       <Stepper
         currentPhase={3}
         activeLabel="Données & Validation"
         nextLabel="Consentement & Récépissé"
-        filledSegments={7}
+        filledSegments={10}
       />
 
       <section
@@ -49,6 +100,11 @@ export default function FacialImageVerificationStep({
           </div>
         ))}
       </section>
+      {uploadError && (
+        <p role="alert" className="mt-3 text-sm text-red-600">
+          {uploadError}
+        </p>
+      )}
     </PageShell>
   )
 }

@@ -49,7 +49,7 @@ export default function FacialCaptureStep({
         currentPhase={2}
         activeLabel="Empreintes & Photo"
         nextLabel="Données & Validation"
-        filledSegments={3}
+        filledSegments={5}
       />
       <div className="mt-6 grid gap-6 rounded-2xl border border-slate-200 p-4 md:grid-cols-2 md:p-8">
         <section

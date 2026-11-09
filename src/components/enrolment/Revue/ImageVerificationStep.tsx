@@ -1,3 +1,6 @@
+import { useRef, useState } from "react"
+import { uploadReviewedImage } from "@/services/document-upload"
+import { useEnrollmentStore } from "@/stores/enrollment-store"
 import { StepFooter } from "../../custom/StepFooter"
 import { Stepper } from "../../custom/Stepper"
 import { PageShell } from "../EnrollmentShared"
@@ -8,18 +11,59 @@ export default function ImageVerificationStep({
   onBack,
   onNext,
 }: ImageVerificationStepProps) {
+  const setUploadedImage = useEnrollmentStore((state) => state.setUploadedImage)
+  const isUploadingRef = useRef(false)
+  const [isUploading, setIsUploading] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
+  const ready = Boolean(leftEye && rightEye)
+
+  async function handleNext() {
+    if (isUploadingRef.current || !leftEye || !rightEye) return
+
+    isUploadingRef.current = true
+    setIsUploading(true)
+    setUploadError(null)
+    const images = [
+      { key: "iris-left", image: leftEye, filename: "iris-left" },
+      { key: "iris-right", image: rightEye, filename: "iris-right" },
+    ] as const
+
+    try {
+      for (const { key, image, filename } of images) {
+        if (useEnrollmentStore.getState().uploadedImages[key]) continue
+        const metadata = await uploadReviewedImage(image, filename)
+        setUploadedImage(key, metadata)
+      }
+      onNext?.()
+    } catch (error) {
+      setUploadError(
+        error instanceof Error ? error.message : "L'envoi des iris a échoué."
+      )
+    } finally {
+      isUploadingRef.current = false
+      setIsUploading(false)
+    }
+  }
+
   return (
     <PageShell
       title="Vérifications des images"
       subtitle="Veuillez vérifier les images capturées."
       caseId="ENR-2026-00429"
-      footer={<StepFooter onBack={onBack} onNext={onNext} />}
+      footer={
+        <StepFooter
+          onBack={onBack}
+          onNext={handleNext}
+          nextDisabled={!ready || isUploading}
+          nextLabel={isUploading ? "Envoi en cours…" : "Continuer"}
+        />
+      }
     >
       <Stepper
         currentPhase={3}
         activeLabel="Données & Validation"
         nextLabel="Consentement & Récépissé"
-        filledSegments={6}
+        filledSegments={9}
       />
 
       <section
@@ -45,6 +89,11 @@ export default function ImageVerificationStep({
           )}
         </div>
       </section>
+      {uploadError && (
+        <p role="alert" className="mt-3 text-sm text-red-600">
+          {uploadError}
+        </p>
+      )}
     </PageShell>
   )
 }

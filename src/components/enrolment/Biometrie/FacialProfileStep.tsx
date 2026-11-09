@@ -31,7 +31,7 @@ export default function FacialProfileStep({
         currentPhase={2}
         activeLabel="Empreintes & Photo"
         nextLabel="Données & Validation"
-        filledSegments={2}
+        filledSegments={4}
       />
       <div className="mt-6 flex flex-col gap-4 rounded-2xl border border-slate-200 p-4 md:flex-row md:p-6">
         <ProfilePanel side="left" image={leftProfile} onCapture={onCapture} />

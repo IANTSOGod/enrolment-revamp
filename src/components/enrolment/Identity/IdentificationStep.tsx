@@ -31,10 +31,10 @@ export default function IdentificationStep({
 
     try {
       const imageBlob = await fetch(capturedImage).then((response) =>
-        response.blob(),
+        response.blob()
       )
       const formData = new FormData()
-      formData.append("image", imageBlob, "identity-image")
+      formData.append("file", imageBlob)
 
       const identify = await OCRService(formData)
       if (currentRequestId === requestId.current) {

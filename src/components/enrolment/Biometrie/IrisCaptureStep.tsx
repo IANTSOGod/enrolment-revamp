@@ -30,7 +30,7 @@ export default function IrisCaptureStep({
         currentPhase={2}
         activeLabel="Empreintes & Photo"
         nextLabel="Données & Validation"
-        filledSegments={2}
+        filledSegments={3}
       />
       <div className="mt-6 flex flex-col gap-4 rounded-2xl border border-slate-200 p-4 md:flex-row md:p-6">
         <EyePanel side="right" image={rightEye} onCapture={onCapture} />

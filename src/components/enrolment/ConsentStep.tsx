@@ -1,66 +1,41 @@
 import { ArrowLeft } from "lucide-react"
-import { useState } from "react"
 import { EnrollmentService } from "@/services/enrollment"
+import { uploadReviewedImage } from "@/services/document-upload"
 import { useEnrollmentStore } from "@/stores/enrollment-store"
 import { Stepper } from "../custom/Stepper"
 import { PageShell } from "./EnrollmentShared"
+import { useMutation } from "@tanstack/react-query"
 
 export default function ConsentStep({ onBack }: { onBack?: () => void }) {
+  const enrollmentStore: EnrollmentData = useEnrollmentStore()
+  const { mutate, isPending, isError, isSuccess, error } = useMutation({
+    mutationFn: async (data: EnrollmentData) => {
+      if (!data.idImage) {
+        throw new Error("La photo de la pièce d'identité est manquante.")
+      }
+
+      let currentData = useEnrollmentStore.getState()
+      if (!currentData.uploadedImages["identity-document"]) {
+        const metadata = await uploadReviewedImage(
+          data.idImage,
+          "identity-document"
+        )
+        currentData.setUploadedImage("identity-document", metadata)
+        currentData = useEnrollmentStore.getState()
+      }
+      return EnrollmentService(currentData)
+    },
+  })
   const informationConfirmed = useEnrollmentStore(
-    (state) => state.informationConfirmed,
+    (state) => state.informationConfirmed
   )
   const biometricConsent = useEnrollmentStore((state) => state.biometricConsent)
   const setInformationConfirmed = useEnrollmentStore(
-    (state) => state.setInformationConfirmed,
+    (state) => state.setInformationConfirmed
   )
   const setBiometricConsent = useEnrollmentStore(
-    (state) => state.setBiometricConsent,
+    (state) => state.setBiometricConsent
   )
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitError, setSubmitError] = useState<string | null>(null)
-  const [isSubmitted, setIsSubmitted] = useState(false)
-
-  async function handleSubmit() {
-    setIsSubmitting(true)
-    setSubmitError(null)
-
-    const {
-      step,
-      procedure,
-      identify,
-      idImage,
-      eyes,
-      profiles,
-      facialImage,
-      facialImageValidated,
-      informationConfirmed,
-      biometricConsent,
-    } = useEnrollmentStore.getState()
-
-    try {
-      await EnrollmentService({
-        step,
-        procedure,
-        identify,
-        idImage,
-        eyes,
-        profiles,
-        facialImage,
-        facialImageValidated,
-        informationConfirmed,
-        biometricConsent,
-      })
-      setIsSubmitted(true)
-    } catch (error) {
-      setSubmitError(
-        error instanceof Error
-          ? error.message
-          : "L'enregistrement du dossier a échoué.",
-      )
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
 
   return (
     <PageShell
@@ -78,15 +53,11 @@ export default function ConsentStep({ onBack }: { onBack?: () => void }) {
           </button>
           <button
             type="button"
-            onClick={handleSubmit}
-            disabled={isSubmitting || isSubmitted}
+            onClick={() => mutate(enrollmentStore)}
+            disabled={isPending || !informationConfirmed || !biometricConsent}
             className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isSubmitting
-              ? "Enregistrement…"
-              : isSubmitted
-                ? "Enregistré"
-                : "Enregistrer"}
+            {isPending ? "En cours…" : "Confirmer"}
           </button>
         </div>
       }
@@ -95,7 +66,7 @@ export default function ConsentStep({ onBack }: { onBack?: () => void }) {
         currentPhase={4}
         activeLabel="Consentement & Récépissé"
         nextLabel=""
-        filledSegments={7}
+        filledSegments={11}
       />
 
       <section className="mt-6 min-h-105 rounded-2xl border border-slate-200 bg-white p-4 md:p-8">
@@ -152,14 +123,14 @@ export default function ConsentStep({ onBack }: { onBack?: () => void }) {
           </div>
         </div>
       </section>
-      {submitError && (
+      {isError && (
         <p role="alert" className="mt-3 text-sm text-red-600">
-          {submitError}
+          {error.message}
         </p>
       )}
-      {isSubmitted && (
-        <p role="status" className="mt-3 text-sm text-emerald-700">
-          Le dossier a été enregistré avec succès.
+      {isSuccess && (
+        <p role="status" className="mt-3 text-sm text-green-700">
+          L’enrôlement a été enregistré avec succès.
         </p>
       )}
     </PageShell>
