@@ -207,6 +207,7 @@ type LocationSelection = {
   fokontany: FokontanyOption | null
   address: string
   contact: string
+  email: string
 }
 
 type EnrollmentStep = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11
@@ -219,17 +220,11 @@ type ReviewedImageKey =
   | "profile-right"
 
 type UploadedDocumentMetadata = {
-  id?: string
-  storage_key?: string
-  filename?: string
-  original_name?: string
-  original_filename?: string
-  mime_type?: string
-  size?: number
-  file_size?: number
-  checksum?: string
-  url?: string
-  created_at?: string
+  checksum: string
+  file_size: number
+  mime_type: string
+  original_filename: string
+  storage_key: string
 }
 
 type EnrollmentPayload = {
@@ -247,9 +242,9 @@ type EnrollmentPayload = {
     occupancy_type: "OWNER"
   }
   contacts: Array<{
-    type: "PHONE"
+    type: "PHONE" | "EMAIL"
     value: string
-    is_primary: true
+    is_primary: boolean
     is_verified: false
   }>
   relationships: Array<{

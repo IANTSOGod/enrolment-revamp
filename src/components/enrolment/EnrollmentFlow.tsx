@@ -12,9 +12,23 @@ import ImageVerificationStep from "./Revue/ImageVerificationStep"
 import FacialImageVerificationStep from "./Revue/FacialImageVerificationStep"
 import ConsentStep from "./ConsentStep"
 import ConsentSuccessStep from "./ConsentSuccessStep"
+import { useState } from "react"
 
 export default function EnrollmentFlow() {
   const enrollmentStore = useEnrollmentStore()
+  const [idEnrollment, setIdEnrollment] = useState<string>("")
+
+  if (idEnrollment) {
+    return (
+      <ConsentSuccessStep
+        onReset={() => {
+          setIdEnrollment("")
+          enrollmentStore.resetEnrollment()
+        }}
+        id={idEnrollment}
+      />
+    )
+  }
 
   if (enrollmentStore.step === 0)
     return <EnrollmentStartStep onStart={enrollmentStore.startEnrollment} />
@@ -116,15 +130,12 @@ export default function EnrollmentFlow() {
       />
     )
 
-  if (enrollmentStore.step === 11)
+  if (enrollmentStore.step === 11 && !idEnrollment)
     return (
       <ConsentStep
         onBack={() => enrollmentStore.setStep(10)}
-        onNext={() => enrollmentStore.setStep(11)}
+        setIdEnrollment={setIdEnrollment}
       />
     )
-
-  return (
-    <ConsentSuccessStep onReset={() => enrollmentStore.resetEnrollment()} />
-  )
+  return null
 }

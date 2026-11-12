@@ -1,6 +1,9 @@
 import { useRef, useState } from "react"
 import { IMAGES } from "@/mock"
-import { uploadReviewedImage } from "@/services/document-upload"
+import {
+  isUploadedDocumentMetadata,
+  uploadReviewedImage,
+} from "@/services/document-upload"
 import { useEnrollmentStore } from "@/stores/enrollment-store"
 import { StepFooter } from "../../custom/StepFooter"
 import { Stepper } from "../../custom/Stepper"
@@ -43,7 +46,13 @@ export default function FacialImageVerificationStep({
 
     try {
       for (const { key, image, filename } of reviewedImages) {
-        if (useEnrollmentStore.getState().uploadedImages[key]) continue
+        if (
+          isUploadedDocumentMetadata(
+            useEnrollmentStore.getState().uploadedImages[key]
+          )
+        ) {
+          continue
+        }
         const metadata = await uploadReviewedImage(image, filename)
         setUploadedImage(key, metadata)
       }

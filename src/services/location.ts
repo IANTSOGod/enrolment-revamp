@@ -8,12 +8,13 @@ type LocationOption = {
 export async function fetchOptions<T extends LocationOption>(
   path: string
 ): Promise<T[]> {
+  console.log(`Fetching options from ${baseURL}/${path} with token: ${token}`)
   const response = await fetch(`${baseURL}/${path}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
-      credentials: "include",
     },
+    credentials: "include",
   })
 
   if (!response.ok) {

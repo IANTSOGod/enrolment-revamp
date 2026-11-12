@@ -19,6 +19,7 @@ const initialData: EnrollmentData = {
     fokontany: null,
     address: "",
     contact: "",
+    email: "",
   },
   idImage: null,
   eyes: { right: null, left: null },

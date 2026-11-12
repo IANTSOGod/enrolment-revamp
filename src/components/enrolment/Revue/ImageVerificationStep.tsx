@@ -1,5 +1,8 @@
 import { useRef, useState } from "react"
-import { uploadReviewedImage } from "@/services/document-upload"
+import {
+  isUploadedDocumentMetadata,
+  uploadReviewedImage,
+} from "@/services/document-upload"
 import { useEnrollmentStore } from "@/stores/enrollment-store"
 import { StepFooter } from "../../custom/StepFooter"
 import { Stepper } from "../../custom/Stepper"
@@ -30,7 +33,13 @@ export default function ImageVerificationStep({
 
     try {
       for (const { key, image, filename } of images) {
-        if (useEnrollmentStore.getState().uploadedImages[key]) continue
+        if (
+          isUploadedDocumentMetadata(
+            useEnrollmentStore.getState().uploadedImages[key]
+          )
+        ) {
+          continue
+        }
         const metadata = await uploadReviewedImage(image, filename)
         setUploadedImage(key, metadata)
       }

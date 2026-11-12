@@ -1,5 +1,5 @@
 import { authClient } from "@/lib/auth-client"
-
+const baseURL = import.meta.env.VITE_BACK_URL
 export const authKeys = {
   all: ["auth"] as const,
 }
@@ -13,8 +13,9 @@ async function Login(data: LoginBase) {
   if (error) {
     throw new Error(error.message)
   }
+  const userId = await getUserId()
   localStorage.setItem("token", result.token)
-  localStorage.setItem("agentId", "56c84d6f-9cb5-464c-834d-b07a5b9541ca")
+  localStorage.setItem("agentId", userId)
   return result satisfies LoginResult
 }
 
@@ -26,7 +27,17 @@ async function Logout() {
   }
   localStorage.removeItem("token")
   localStorage.removeItem("agentId")
-  localStorage.removeItem("id")
+}
+
+async function getUserId() {
+  const response = await fetch("" + baseURL + "/agents/me", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+    },
+  })
+  if (!response.ok) throw new Error("Failed to fetch user ID")
+  const data = await response.json()
+  return data.agent.id
 }
 
 export const AuthService = {

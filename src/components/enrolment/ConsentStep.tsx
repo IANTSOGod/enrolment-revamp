@@ -1,6 +1,9 @@
 import { ArrowLeft } from "lucide-react"
 import { EnrollmentService } from "@/services/enrollment"
-import { uploadReviewedImage } from "@/services/document-upload"
+import {
+  isUploadedDocumentMetadata,
+  uploadReviewedImage,
+} from "@/services/document-upload"
 import { useEnrollmentStore } from "@/stores/enrollment-store"
 import { Stepper } from "../custom/Stepper"
 import { PageShell } from "./EnrollmentShared"
@@ -8,10 +11,10 @@ import { useMutation } from "@tanstack/react-query"
 
 export default function ConsentStep({
   onBack,
-  onNext,
+  setIdEnrollment,
 }: {
   onBack?: () => void
-  onNext?: () => void
+  setIdEnrollment: (id: string) => void
 }) {
   const enrollmentStore: EnrollmentData = useEnrollmentStore()
   const { mutate, isPending, isError, isSuccess, error } = useMutation({
@@ -21,7 +24,11 @@ export default function ConsentStep({
       }
 
       let currentData = useEnrollmentStore.getState()
-      if (!currentData.uploadedImages["identity-document"]) {
+      if (
+        !isUploadedDocumentMetadata(
+          currentData.uploadedImages["identity-document"]
+        )
+      ) {
         const metadata = await uploadReviewedImage(
           data.idImage,
           "identity-document"
@@ -31,8 +38,8 @@ export default function ConsentStep({
       }
       return EnrollmentService(currentData)
     },
-    onSuccess: () => {
-      onNext?.()
+    onSuccess: (data) => {
+      setIdEnrollment(data.applicationId)
     },
   })
   const informationConfirmed = useEnrollmentStore(

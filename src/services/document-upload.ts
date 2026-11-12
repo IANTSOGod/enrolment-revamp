@@ -1,5 +1,51 @@
 const baseURL = import.meta.env.VITE_BACK_URL
 
+export function isUploadedDocumentMetadata(
+  value: unknown
+): value is UploadedDocumentMetadata {
+  if (typeof value !== "object" || value === null) return false
+
+  const metadata = value as Record<string, unknown>
+  return (
+    typeof metadata.checksum === "string" &&
+    typeof metadata.file_size === "number" &&
+    Number.isFinite(metadata.file_size) &&
+    metadata.file_size >= 0 &&
+    typeof metadata.mime_type === "string" &&
+    typeof metadata.original_filename === "string" &&
+    typeof metadata.storage_key === "string" &&
+    metadata.storage_key.trim().length > 0
+  )
+}
+
+function getInvalidMetadataFields(value: unknown): string[] {
+  if (typeof value !== "object" || value === null) {
+    return [
+      "checksum",
+      "file_size",
+      "mime_type",
+      "original_filename",
+      "storage_key",
+    ]
+  }
+
+  const metadata = value as Record<string, unknown>
+  return [
+    typeof metadata.checksum === "string" ? null : "checksum",
+    typeof metadata.file_size === "number" &&
+    Number.isFinite(metadata.file_size) &&
+    metadata.file_size >= 0
+      ? null
+      : "file_size",
+    typeof metadata.mime_type === "string" ? null : "mime_type",
+    typeof metadata.original_filename === "string" ? null : "original_filename",
+    typeof metadata.storage_key === "string" &&
+    metadata.storage_key.trim().length > 0
+      ? null
+      : "storage_key",
+  ].filter((field): field is string => field !== null)
+}
+
 export async function uploadReviewedImage(
   image: string,
   filename: string
@@ -33,38 +79,27 @@ export async function uploadReviewedImage(
   })
 
   if (!response.ok) {
-    throw new Error(
-      `L'envoi de « ${filename} » a échoué (${response.status}).`
-    )
+    throw new Error(`L'envoi de « ${filename} » a échoué (${response.status}).`)
   }
 
   const result: unknown = await response.json()
-  const metadata = Array.isArray(result)
-    ? result.length === 1
-      ? result[0]
-      : null
-    : result
+  const documents =
+    typeof result === "object" && result !== null
+      ? Reflect.get(result, "documents")
+      : undefined
+  const metadata =
+    Array.isArray(documents) && documents.length === 1 ? documents[0] : null
 
-  if (!metadata || typeof metadata !== "object") {
+  if (!isUploadedDocumentMetadata(metadata)) {
+    console.log("Métadonnées d'upload manquantes ou invalides :", {
+      filename,
+      fields: getInvalidMetadataFields(metadata),
+      metadata,
+    })
     throw new Error(
-      `Le serveur a accepté « ${filename} », mais sa réponse est invalide.`
+      `Le serveur a accepté « ${filename} », mais ses métadonnées sont invalides. Vérifiez la présence de checksum, file_size, mime_type, original_filename et storage_key.`
     )
   }
-
-  const document = metadata as Record<string, unknown>
-  const hasMetadata = [
-    "id",
-    "storage_key",
-    "filename",
-    "original_name",
-    "original_filename",
-    "url",
-  ].some((key) => typeof document[key] === "string")
-  if (!hasMetadata) {
-    throw new Error(
-      `Le serveur a accepté « ${filename} », mais n'a pas retourné les métadonnées du document.`
-    )
-  }
-
-  return metadata as UploadedDocumentMetadata
+  console.log(`Image « ${filename} » envoyée avec succès.`, metadata)
+  return metadata
 }

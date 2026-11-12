@@ -3,7 +3,7 @@ import { createFaceEmbedding } from "./face-embedding"
 const baseURL = import.meta.env.VITE_BACK_URL
 const ocrURL = import.meta.env.VITE_OCR_URL
 
-const IDENTITY_DOCUMENT_TYPE_ID = "e5fd7e09-ccd0-4c4d-b308-6f6879df36cf"
+const IDENTITY_DOCUMENT_TYPE_ID = "13fc6b6a-bdd5-41cd-ae99-4c8e5ca99413"
 
 function required(value: string | null | undefined, field: string) {
   const normalized = value?.trim()
@@ -55,7 +55,7 @@ function normalizeSex(value: string | undefined): "M" | "F" {
 }
 
 function toDocumentFile(metadata: UploadedDocumentMetadata) {
-  const fileSize = metadata.file_size ?? metadata.size
+  const fileSize = metadata.file_size
   if (
     typeof fileSize !== "number" ||
     !Number.isFinite(fileSize) ||
@@ -68,7 +68,7 @@ function toDocumentFile(metadata: UploadedDocumentMetadata) {
     side: "FRONT" as const,
     storage_key: required(metadata.storage_key, "storage_key du document"),
     original_filename: required(
-      metadata.original_filename ?? metadata.original_name,
+      metadata.original_filename,
       "nom original du document"
     ),
     mime_type: required(metadata.mime_type, "type MIME du document"),
@@ -78,10 +78,7 @@ function toDocumentFile(metadata: UploadedDocumentMetadata) {
 }
 
 function imagePath(metadata: UploadedDocumentMetadata, label: string) {
-  return required(
-    metadata.storage_key ?? metadata.url,
-    `chemin de l'image ${label}`
-  )
+  return required(metadata.storage_key, `chemin de l'image ${label}`)
 }
 
 async function buildEnrollmentPayload(
@@ -108,32 +105,18 @@ async function buildEnrollmentPayload(
     throw new Error("Toutes les images biométriques doivent être envoyées.")
   }
 
-  const faceImages = [
-    { key: "face", source: data.facialImage, metadata: face },
+  const sourceImage = required(data.facialImage, "image face")
+  const descriptor = await createFaceEmbedding(sourceImage)
+  const faceBiometrics: EnrollmentPayload["face_biometrics"] = [
     {
-      key: "profile gauche",
-      source: data.profiles.left,
-      metadata: leftProfile,
-    },
-    {
-      key: "profile droit",
-      source: data.profiles.right,
-      metadata: rightProfile,
-    },
-  ]
-  const faceBiometrics: EnrollmentPayload["face_biometrics"] = []
-  for (const { key, source, metadata } of faceImages) {
-    const sourceImage = required(source, `image ${key}`)
-    const descriptor = await createFaceEmbedding(sourceImage)
-    faceBiometrics.push({
-      image_file_path: imagePath(metadata, key),
+      image_file_path: imagePath(face, "face"),
       model_name: descriptor.modelName,
       model_version: descriptor.modelVersion,
       embedding: descriptor.embedding,
       quality_score: descriptor.detectionConfidence,
       face_detected: true,
-    })
-  }
+    },
+  ]
 
   const relationships: EnrollmentPayload["relationships"] = []
   if (identify.nom_pere.trim()) {
@@ -146,6 +129,30 @@ async function buildEnrollmentPayload(
     relationships.push({
       related_person_name: identify.nom_mere.trim(),
       relationship_type: "MOTHER",
+    })
+  }
+
+  const phone = location.contact.trim()
+  const email = location.email.trim()
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    throw new Error("L'adresse e-mail du citoyen n'est pas valide.")
+  }
+
+  const contacts: EnrollmentPayload["contacts"] = []
+  if (phone) {
+    contacts.push({
+      type: "PHONE",
+      value: phone,
+      is_primary: !email,
+      is_verified: false,
+    })
+  }
+  if (email) {
+    contacts.push({
+      type: "EMAIL",
+      value: email,
+      is_primary: true,
+      is_verified: false,
     })
   }
 
@@ -165,16 +172,7 @@ async function buildEnrollmentPayload(
       fokontany_id: required(location.fokontany?.id, "fokotany"),
       occupancy_type: "OWNER",
     },
-    contacts: location.contact.trim()
-      ? [
-          {
-            type: "PHONE",
-            value: location.contact.trim(),
-            is_primary: true,
-            is_verified: false,
-          },
-        ]
-      : [],
+    contacts,
     relationships,
     documents: [
       {
@@ -199,6 +197,7 @@ export async function EnrollmentService(data: EnrollmentData) {
     throw new Error("Vous devez être connecté pour soumettre l'enrôlement.")
   }
 
+  console.log(data)
   const payload = await buildEnrollmentPayload(data)
   const response = await fetch(`${baseURL}/enrolments`, {
     method: "POST",
@@ -214,7 +213,44 @@ export async function EnrollmentService(data: EnrollmentData) {
     throw new Error(`L'enregistrement a échoué (${response.status}).`)
   }
 
-  return response.status === 204 ? undefined : response.json()
+  if (response.status === 204) {
+    throw new Error(
+      "L'enrôlement a été enregistré, mais le serveur n'a pas retourné sa référence pour le QR code."
+    )
+  }
+
+  const result: unknown = await response.json()
+  const applicationId = getApplicationId(result)
+  if (!applicationId) {
+    throw new Error(
+      "L'enrôlement a été enregistré, mais sa référence est absente de la réponse du serveur."
+    )
+  }
+
+  return { applicationId }
+}
+
+function getApplicationId(result: unknown): string | undefined {
+  if (typeof result !== "object" || result === null) return undefined
+
+  const idKeys = ["applicationId", "application_id", "id"]
+  const readId = (value: unknown) => {
+    if (typeof value !== "object" || value === null) return undefined
+    for (const key of idKeys) {
+      const id = Reflect.get(value, key)
+      if (typeof id === "string" && id.trim()) return id.trim()
+    }
+    return undefined
+  }
+
+  const directId = readId(result)
+  if (directId) return directId
+
+  const application = Reflect.get(result, "application")
+  const applicationId = readId(application)
+  if (applicationId) return applicationId
+
+  return readId(Reflect.get(result, "data"))
 }
 
 export async function OCRService(formData: FormData) {
