@@ -9,8 +9,11 @@ import TableRecent from "@/components/dash/TableRecent"
 
 export default function EnrolmentDashboard() {
   const online = useOnlineStatus()
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["dashboard", localStorage.getItem("agentId") ?? localStorage.getItem("id")],
+  const { data, isPending, isError, error } = useQuery({
+    queryKey: [
+      "dashboard",
+      localStorage.getItem("agentId") ?? localStorage.getItem("id"),
+    ],
     queryFn: getDashboard,
   })
 
@@ -66,7 +69,7 @@ export default function EnrolmentDashboard() {
         aria-label="Indicateurs d'activité"
         className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"
       >
-        {isLoading
+        {isPending
           ? metricStyles.map((metric) => (
               <article
                 key={metric.label}
@@ -77,12 +80,15 @@ export default function EnrolmentDashboard() {
               </article>
             ))
           : metrics.map((metric) => (
-          <Metric key={metric.label} metric={metric}></Metric>
+              <Metric key={metric.label} metric={metric}></Metric>
             ))}
       </section>
 
       {isError && (
-        <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+        <p
+          role="alert"
+          className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700"
+        >
           {error instanceof Error
             ? error.message
             : "Impossible de charger le tableau de bord."}
@@ -107,7 +113,7 @@ export default function EnrolmentDashboard() {
           </Link>
         </div>
 
-        {isLoading ? (
+        {isPending ? (
           <p role="status" className="mt-4 text-sm text-slate-500">
             Chargement des dossiers récents…
           </p>

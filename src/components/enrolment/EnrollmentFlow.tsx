@@ -11,6 +11,7 @@ import LocationReviewStep from "./Revue/LocationReviewStep"
 import ImageVerificationStep from "./Revue/ImageVerificationStep"
 import FacialImageVerificationStep from "./Revue/FacialImageVerificationStep"
 import ConsentStep from "./ConsentStep"
+import ConsentSuccessStep from "./ConsentSuccessStep"
 
 export default function EnrollmentFlow() {
   const enrollmentStore = useEnrollmentStore()
@@ -115,5 +116,15 @@ export default function EnrollmentFlow() {
       />
     )
 
-  return <ConsentStep onBack={() => enrollmentStore.setStep(10)} />
+  if (enrollmentStore.step === 11)
+    return (
+      <ConsentStep
+        onBack={() => enrollmentStore.setStep(10)}
+        onNext={() => enrollmentStore.setStep(11)}
+      />
+    )
+
+  return (
+    <ConsentSuccessStep onReset={() => enrollmentStore.resetEnrollment()} />
+  )
 }

@@ -6,7 +6,13 @@ import { Stepper } from "../custom/Stepper"
 import { PageShell } from "./EnrollmentShared"
 import { useMutation } from "@tanstack/react-query"
 
-export default function ConsentStep({ onBack }: { onBack?: () => void }) {
+export default function ConsentStep({
+  onBack,
+  onNext,
+}: {
+  onBack?: () => void
+  onNext?: () => void
+}) {
   const enrollmentStore: EnrollmentData = useEnrollmentStore()
   const { mutate, isPending, isError, isSuccess, error } = useMutation({
     mutationFn: async (data: EnrollmentData) => {
@@ -24,6 +30,9 @@ export default function ConsentStep({ onBack }: { onBack?: () => void }) {
         currentData = useEnrollmentStore.getState()
       }
       return EnrollmentService(currentData)
+    },
+    onSuccess: () => {
+      onNext?.()
     },
   })
   const informationConfirmed = useEnrollmentStore(
