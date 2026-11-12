@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query"
-import { useRef, useState } from "react"
 
 export interface Account {
   id: string
