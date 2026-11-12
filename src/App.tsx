@@ -3,6 +3,7 @@ import AdminLayout from "./layout/AdminLayout"
 import EnrolmnentDashboard from "./pages/EnrolmentDashboard"
 import EnrolmentHome from "./pages/EnrolmentHome"
 import LoginEnrolment from "./pages/LoginEnrolment"
+import SSOLogin from "./pages/SSOLogin"
 
 function RequireAuth() {
   const location = useLocation()
@@ -30,6 +31,7 @@ export default function App() {
           ></Route>
         </Route>
       </Route>
+      <Route path="/sso-login" element={<SSOLogin></SSOLogin>}></Route>
     </Routes>
   )
 }

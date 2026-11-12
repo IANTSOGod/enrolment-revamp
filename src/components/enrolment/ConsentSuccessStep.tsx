@@ -1,5 +1,7 @@
+import { useEnrollmentStore } from "@/stores/enrollment-store"
 import { Check, Printer } from "lucide-react"
 import { QRCodeSVG } from "qrcode.react"
+import { useEffect, useState } from "react"
 
 type ConsentSuccessStepProps = {
   onReset?: () => void
@@ -11,6 +13,17 @@ export default function ConsentSuccessStep({
   id,
 }: ConsentSuccessStepProps) {
   const submittedAt = "02 octobre 2026 · 09:44"
+  const enrollmentStore = useEnrollmentStore()
+  const [dataQR, setDataQR] = useState<string>("")
+  useEffect(() => {}, [id, enrollmentStore.location?.email])
+  useEffect(() => {
+    setDataQR(
+      JSON.stringify({
+        application_id: id,
+        email: enrollmentStore.location?.email,
+      })
+    )
+  }, [id, enrollmentStore.location?.email])
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#f3f3f3] p-6">
@@ -35,7 +48,7 @@ export default function ConsentSuccessStep({
           <div className="grid items-center gap-6 md:grid-cols-[220px_minmax(0,1fr)]">
             <div className="flex justify-center">
               <QRCodeSVG
-                value={id}
+                value={dataQR}
                 size={150}
                 level="M"
                 title={`Identifiant de suivi ${id}`}
