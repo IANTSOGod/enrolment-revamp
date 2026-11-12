@@ -1,0 +1,84 @@
+name: Deploy Etat Civil Frontend
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure SSH
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          HOST: ${{ secrets.HOST }}
+          USER1: ${{ secrets.USER1 }}
+          HOST2: ${{ secrets.HOST2 }}
+          USER2: ${{ secrets.USER2 }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+          cat > ~/.ssh/config <<EOF
+          Host vps
+            HostName $HOST
+            User $USER1
+            IdentityFile ~/.ssh/id_ed25519
+            StrictHostKeyChecking accept-new
+
+          Host school
+            HostName $HOST2
+            User $USER2
+            IdentityFile ~/.ssh/id_ed25519
+            ProxyJump vps
+            StrictHostKeyChecking accept-new
+          EOF
+
+          chmod 600 ~/.ssh/config
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t etat-civil-frontend:${{ github.sha }} \
+            .
+
+      - name: Transfer Docker image
+        run: |
+          docker save etat-civil-frontend:${{ github.sha }} \
+            | ssh school "docker load"
+
+      - name: Transfer Docker Compose
+        run: |
+          ssh school "mkdir -p /home/cloud/apps/etat-civil-frontend"
+
+          scp compose.prod.yml \
+            school:/home/cloud/apps/etat-civil-frontend/compose.prod.yml
+
+      - name: Deploy frontend
+        run: |
+          ssh school "
+            cd /home/cloud/apps/etat-civil-frontend &&
+            IMAGE_TAG=${{ github.sha }} \
+            docker compose -f compose.prod.yml up -d --no-deps frontend
+          "
+
+      - name: Verify deployment
+        run: |
+          ssh school "
+            cd /home/cloud/apps/etat-civil-frontend &&
+            IMAGE_TAG=${{ github.sha }} \
+            docker compose -f compose.prod.yml ps &&
+            curl --fail --silent --show-error http://100.101.128.43:3002/ > /dev/null
+          "
