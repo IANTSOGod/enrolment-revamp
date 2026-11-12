@@ -1,0 +1,9 @@
+name: etat-civil-frontend
+
+services:
+  frontend:
+    image: etat-civil-frontend:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+
+    ports:
+      - "100.101.128.43:3002:80"
