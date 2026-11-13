@@ -1,11 +1,11 @@
 // import { useEffect } from "react"
-import { authClient } from "../lib/auth-client"
+// import { authClient } from "../lib/auth-client"
 
 export default function Consent() {
   const handleConsent = async () => {
     // Le client OAuth doit être configuré avec oauthProviderClient
     // authClient.oauth2.consent() envoie la réponse à Better Auth
-    await authClient.oauth2.consent()
+    // await authClient.oauth2.consent()
   }
 
   return (
