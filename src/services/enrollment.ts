@@ -1,7 +1,7 @@
 import { createFaceEmbedding } from "./face-embedding"
 
 const baseURL = import.meta.env.VITE_BACK_URL
-const ocrURL = import.meta.env.VITE_OCR_URL
+const ocrURL = `${baseURL}/ocr`
 
 const IDENTITY_DOCUMENT_TYPE_ID = "13fc6b6a-bdd5-41cd-ae99-4c8e5ca99413"
 
@@ -253,9 +253,11 @@ function getApplicationId(result: unknown): string | undefined {
   return readId(Reflect.get(result, "data"))
 }
 
+
 export async function OCRService(formData: FormData) {
   const response = await fetch(`${ocrURL}/extract`, {
     method: "POST",
+    credentials: "include",
     body: formData,
   })
 
@@ -265,8 +267,10 @@ export async function OCRService(formData: FormData) {
 
     try {
       const errorBody: unknown = JSON.parse(responseBody)
+
       if (typeof errorBody === "object" && errorBody !== null) {
         const errorDetail = Reflect.get(errorBody, "detail")
+
         if (typeof errorDetail === "string") {
           detail = errorDetail
         } else if (errorDetail !== undefined) {
@@ -278,11 +282,10 @@ export async function OCRService(formData: FormData) {
     }
 
     throw new Error(
-      `L'analyse OCR a échoué (${response.status})${detail ? ` : ${detail}` : "."}`
+      `L'analyse OCR a échoué (${response.status}) : ${detail}`
     )
   }
 
-  const result = await response.json()
-
-  return result as Identify
+  return (await response.json()) as Identify
 }
+
