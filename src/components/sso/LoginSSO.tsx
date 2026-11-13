@@ -1,6 +1,8 @@
 import { useMutation } from "@tanstack/react-query"
 import { useRef, useState, type FormEvent } from "react"
 import { CitizenAuthService } from "@/services/citizen-auth"
+import { authClient } from "@/lib/auth-client"
+import { AuthService } from "@/services/auth"
 
 interface LoginPageProps {
   onLoginSuccess?: () => void
@@ -118,16 +120,7 @@ export default function LoginSSO({
     password: string
   } | null>(null)
   const loginMutation = useMutation({
-    mutationFn: async () => {
-      const credentials = credentialsRef.current
-      if (!credentials) {
-        throw new Error("Les identifiants de connexion sont absents.")
-      }
-      await CitizenAuthService.login({
-        email: credentials.email,
-        password: credentials.password,
-      })
-    },
+    mutationFn: AuthService.login,
     onSuccess: () => {
       setPassword("")
       onLoginSuccess?.()
@@ -141,7 +134,7 @@ export default function LoginSSO({
   const submit = (e: FormEvent) => {
     e.preventDefault()
     credentialsRef.current = { email, password }
-    loginMutation.mutate()
+    loginMutation.mutate({ email, mdp: password } satisfies LoginBase)
   }
 
   return (
