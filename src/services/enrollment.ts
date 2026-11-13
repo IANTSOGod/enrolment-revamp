@@ -1,7 +1,7 @@
 import { createFaceEmbedding } from "./face-embedding"
 
 const baseURL = import.meta.env.VITE_BACK_URL
-const ocrURL = `${baseURL}/ocr`
+// const ocrURL = `${baseURL}/ocr`
 
 const IDENTITY_DOCUMENT_TYPE_ID = "13fc6b6a-bdd5-41cd-ae99-4c8e5ca99413"
 
