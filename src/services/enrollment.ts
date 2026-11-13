@@ -253,12 +253,12 @@ function getApplicationId(result: unknown): string | undefined {
   return readId(Reflect.get(result, "data"))
 }
 
-
 export async function OCRService(formData: FormData) {
-  const response = await fetch(`${ocrURL}/extract`, {
-    method: "POST",
+  console.log("Sending OCR request with formData:", formData)
+  const response = await fetch(`${baseURL}/person/fictive`, {
+    method: "GET",
     credentials: "include",
-    body: formData,
+    // body: formData,
   })
 
   if (!response.ok) {
@@ -281,11 +281,8 @@ export async function OCRService(formData: FormData) {
       detail = responseBody || response.statusText
     }
 
-    throw new Error(
-      `L'analyse OCR a échoué (${response.status}) : ${detail}`
-    )
+    throw new Error(`L'analyse OCR a échoué (${response.status}) : ${detail}`)
   }
 
   return (await response.json()) as Identify
 }
-
