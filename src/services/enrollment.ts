@@ -255,7 +255,7 @@ function getApplicationId(result: unknown): string | undefined {
 
 export async function OCRService(formData: FormData) {
   console.log("Sending OCR request with formData:", formData)
-  const response = await fetch(`${baseURL}/person/fictive`, {
+  const response = await fetch(`${baseURL}/personne/fictive`, {
     method: "GET",
     credentials: "include",
     // body: formData,
