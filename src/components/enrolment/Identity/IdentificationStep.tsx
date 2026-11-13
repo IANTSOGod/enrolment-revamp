@@ -34,7 +34,7 @@ export default function IdentificationStep({
         response.blob()
       )
       const formData = new FormData()
-      formData.append("file", imageBlob)
+      formData.append("file", imageBlob,"captured-image.png")
 
       const identify = await OCRService(formData)
       if (currentRequestId === requestId.current) {
