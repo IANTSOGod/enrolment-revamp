@@ -256,7 +256,7 @@ function getApplicationId(result: unknown): string | undefined {
 export async function OCRService(formData: FormData) {
   console.log("Sending OCR request with formData:", formData)
   const response = await fetch(`${ocrURL}/extract`)
-
+  console.log("response", response)
   if (!response.ok) {
     const responseBody = await response.text()
     let detail = responseBody || response.statusText
