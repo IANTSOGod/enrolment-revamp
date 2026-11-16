@@ -119,13 +119,13 @@ async function buildEnrollmentPayload(
   ]
 
   const relationships: EnrollmentPayload["relationships"] = []
-  if (identify.nom_pere.trim()) {
+  if (identify.nom_pere?.trim()) {
     relationships.push({
       related_person_name: identify.nom_pere.trim(),
       relationship_type: "FATHER",
     })
   }
-  if (identify.nom_mere.trim()) {
+  if (identify.nom_mere?.trim()) {
     relationships.push({
       related_person_name: identify.nom_mere.trim(),
       relationship_type: "MOTHER",

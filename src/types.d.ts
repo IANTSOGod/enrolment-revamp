@@ -163,13 +163,13 @@ type LoginResult = {
 }
 
 type Identify = {
-  nom: string
-  prenoms: string
-  date_naissance: string
-  lieu_naissance: string
+  nom: string | null
+  prenoms: string | null
+  date_naissance: string | null
+  lieu_naissance: string | null
   genre?: string
-  nom_mere: string
-  nom_pere: string
+  nom_mere: string | null
+  nom_pere: string | null
 }
 
 type LocationOption = {
