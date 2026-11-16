@@ -1,7 +1,7 @@
 import { createFaceEmbedding } from "./face-embedding"
 
 const baseURL = import.meta.env.VITE_BACK_URL
-// const ocrURL = `${baseURL}/ocr`
+const ocrURL = import.meta.env.VITE_OCR_URL
 
 const IDENTITY_DOCUMENT_TYPE_ID = "13fc6b6a-bdd5-41cd-ae99-4c8e5ca99413"
 
@@ -255,7 +255,7 @@ function getApplicationId(result: unknown): string | undefined {
 
 export async function OCRService(formData: FormData) {
   console.log("Sending OCR request with formData:", formData)
-  const response = await fetch(`${baseURL}/personne/fictive`)
+  const response = await fetch(`${ocrURL}/extract`)
 
   if (!response.ok) {
     const responseBody = await response.text()
