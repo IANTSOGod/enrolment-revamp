@@ -4,6 +4,8 @@ services:
   frontend:
     image: etat-civil-frontend:${IMAGE_TAG:-latest}
     restart: unless-stopped
+    env_file:
+      - .env
 
     ports:
       - "100.101.128.43:3002:80"
