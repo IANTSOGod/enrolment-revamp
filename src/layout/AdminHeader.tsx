@@ -1,17 +1,17 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+// import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Bell } from "lucide-react"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
+  // DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { cn, useNow, useOnlineStatus } from "@/lib/utils"
-import { notificationKeys, notificationService } from "@/services/notifications"
-import NotificationList from "@/components/custom/NotificationList"
+// import { notificationKeys, notificationService } from "@/services/notifications"
+// import NotificationList from "@/components/custom/NotificationList"
 
 export default function AppHeader({
   title,
@@ -20,29 +20,29 @@ export default function AppHeader({
 }: AppHeaderProps) {
   const online = useOnlineStatus()
   const now = useNow()
-  const queryClient = useQueryClient()
+  // const queryClient = useQueryClient()
 
-  const { data: notifications = [] } = useQuery({
-    queryKey: notificationKeys.all,
-    queryFn: notificationService.getAll,
-    refetchInterval: 60_000,
-    enabled: online,
-  })
+  // const { data: notifications = [] } = useQuery({
+  //   queryKey: notificationKeys.all,
+  //   queryFn: notificationService.getAll,
+  //   refetchInterval: 60_000,
+  //   enabled: online,
+  // })
 
-  const refresh = () =>
-    queryClient.invalidateQueries({ queryKey: notificationKeys.all })
+  // const refresh = () =>
+  //   queryClient.invalidateQueries({ queryKey: notificationKeys.all })
 
-  const { mutate: markAsRead } = useMutation({
-    mutationFn: notificationService.markAsRead,
-    onSuccess: refresh,
-  })
+  // const { mutate: markAsRead } = useMutation({
+  //   mutationFn: notificationService.markAsRead,
+  //   onSuccess: refresh,
+  // })
 
-  const { mutate: markAllAsRead, isPending: isMarkingAll } = useMutation({
-    mutationFn: notificationService.markAllAsRead,
-    onSuccess: refresh,
-  })
+  // const { mutate: markAllAsRead, isPending: isMarkingAll } = useMutation({
+  //   mutationFn: notificationService.markAllAsRead,
+  //   onSuccess: refresh,
+  // })
 
-  const unreadCount = notifications.filter((n) => !n.read).length
+  // const unreadCount = notifications.filter((n) => !n.read).length
 
   const date = now.toLocaleDateString("fr-FR", {
     day: "2-digit",
@@ -99,25 +99,25 @@ export default function AppHeader({
             className="relative flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-blue-300"
           >
             <Bell className="size-4" />
-            {unreadCount > 0 ? (
+            {/* {unreadCount > 0 ? (
               <span className="absolute top-1.5 right-1.5 size-2 rounded-full bg-red-500" />
-            ) : null}
+            ) : null} */}
           </DropdownMenuTrigger>
 
           <DropdownMenuContent align="end" className="w-80 p-0">
             {/* En-tête */}
             <div className="flex items-center justify-between px-4 py-3">
               <span className="text-sm font-semibold">Notifications</span>
-              {unreadCount > 0 ? (
+              {/* {unreadCount > 0 ? (
                 <span className="rounded-full bg-red-50 px-2 py-0.5 text-xs font-medium text-red-600">
                   {unreadCount} non lue{unreadCount > 1 ? "s" : ""}
                 </span>
-              ) : null}
+              ) : null} */}
             </div>
 
             <DropdownMenuSeparator className="m-0" />
 
-            {notifications.length === 0 ? (
+            {/* {notifications.length === 0 ? (
               <div className="px-4 py-8 text-center text-sm text-muted-foreground">
                 Aucune notification
               </div>
@@ -127,10 +127,10 @@ export default function AppHeader({
                   <NotificationList key={n.id} read={markAsRead} notif={n} />
                 ))}
               </div>
-            )}
+            )} */}
 
             {/* Pied */}
-            {notifications.length > 0 ? (
+            {/* {notifications.length > 0 ? (
               <>
                 <DropdownMenuSeparator className="m-0" />
                 <div className="p-1">
@@ -146,7 +146,7 @@ export default function AppHeader({
                   </DropdownMenuItem>
                 </div>
               </>
-            ) : null}
+            ) : null} */}
           </DropdownMenuContent>
         </DropdownMenu>
 
