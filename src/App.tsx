@@ -5,7 +5,7 @@ import EnrolmentHome from "./pages/EnrolmentHome"
 import LoginEnrolment from "./pages/LoginEnrolment"
 // import SSOLogin from "./pages/SSOLogin"
 import SSOAuth from "./pages/SSOAuth"
-
+//commentaire 
 function RequireAuth() {
   const location = useLocation()
 
